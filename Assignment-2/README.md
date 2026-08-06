@@ -1,3 +1,4 @@
+Assignment 2 Submitted by Devashish Sathawane
 Make UserManager.sh script using vim/nano editor
 ![alt text](image.png)
 ![alt text](image-1.png)
