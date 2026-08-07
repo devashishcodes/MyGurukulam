@@ -50,6 +50,14 @@ deleteLineWord)
     sed -i "/$word/d" "$file"
     ;;
 
+countLines)
+    wc -l < "$file"
+    ;;
+
+upperCase)
+    sed -i 's/.*/\U&/' "$file"
+    ;;
+
 *)
     echo "Invalid Command"
     ;;
