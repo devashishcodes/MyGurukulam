@@ -1,301 +1,139 @@
 # Assignment 1.1 – Basic Linux Commands
 
-Submitted by: Devashish Sathawane
+**Submitted by:** Devashish Sathawane
 
-**OVERVIEW**
+An exploration of core Linux directory and file commands — creating nested directories in one shot, writing to files without an editor, viewing partial file content, and copying/moving/deleting files and directories.
 
-This assignment focuses on practicing basic Linux commands for
-managing directories, files, and file contents.
+## Overview
 
-The assignment was completed using the Linux terminal without using
-the sed command.
+This assignment walks through fundamental Linux commands for working with the filesystem entirely from the shell, without using a text editor.
 
-**1. DIRECTORY MANAGEMENT**
+## Tasks & Commands
 
-First, I checked my current working directory using the pwd command
-and created the required directories using the mkdir command.
+### 1. Directories
 
-The following directory structure was created:
+| Task | Command |
+|---|---|
+| Check current directory | `pwd` |
+| Create `linux` directory in current dir | `mkdir linux` |
+| Create `Assignment-01` inside `linux` | `cd linux && mkdir Assignment-01` |
+| Create `dir1` inside `/tmp` (without changing cwd) | `mkdir /tmp/dir1` |
+| Create nested `dir1/dir2/dir3` in one command | `mkdir -p /tmp/dir1/dir2/dir3` |
+| Verify directory tree recursively | `ls -R /tmp/dir1` |
+| Delete `dir3` | `rmdir /tmp/dir1/dir2/dir3` |
 
-/tmp
-└── dir1
-    └── dir2
-        └── dir3
+`-p` creates parent directories as needed if they don't already exist.
 
-The complete nested structure was created using:
-mkdir -p /tmp/dir1/dir2/dir3
+### 2. Creating & Writing Files (no text editor)
 
-I verified the directory structure using:
-ls -R /tmp/dir1
+| Task | Command |
+|---|---|
+| Create empty file with first name | `touch /tmp/devashish` |
+| Add first line to file | `echo "This is my first file" > /tmp/devashish` |
+| Append another line (without overwriting) | `echo "this is a additional content" >> /tmp/devashish` |
+| Create file with last name + initial content | `touch /tmp/sathawane` <br> `echo "sathawane is my last name" > /tmp/sathawane` |
 
-After verification, I removed dir3 using:
-rmdir /tmp/dir1/dir2/dir3
+### 3. Adding Content at the Beginning of a File
 
+Since `sed` isn't allowed, this is done by writing the new line to a temp file, appending the original file's content to it, then replacing the original with the temp file:
 
-<img width="882" height="461" alt="Screenshot 2026-08-08 224600" src="https://github.com/user-attachments/assets/9ae34ce8-ebd6-48e1-8234-58d4b2715630" />
-<img width="888" height="172" alt="Screenshot 2026-08-08 224608" src="https://github.com/user-attachments/assets/8872996d-f46f-43ee-966e-a47fbc3d4c85" />
-<img width="887" height="128" alt="Screenshot 2026-08-08 224615" src="https://github.com/user-attachments/assets/f63ebd3d-a7d0-4420-a5cf-5c95c00b86a7" />
-
-**2. CREATING AND WRITING TO A FILE**
-
-I created an empty file using the touch command:
-touch /tmp/Devashish
-
-Then I added the first line to the file using:
-echo "This is my first line" > /tmp/Devashish
-
-The > operator is used to write content into a file.
-To add another line without overwriting the existing content, I used:
-
-echo "this is a additional content" >> /tmp/Devashish
-The >> operator appends new content to the existing file.
-
-I used the cat command to check the contents of the file:
-cat /tmp/Devashish
-
-
-<img width="885" height="235" alt="Screenshot 2026-08-08 224838" src="https://github.com/user-attachments/assets/90b6b5c0-8f30-41e6-88c2-b84f9eab559a" />
-<img width="886" height="73" alt="Screenshot 2026-08-08 224848" src="https://github.com/user-attachments/assets/864e8246-ddf7-4e46-af50-57e83cf981e7" />
-<img width="887" height="86" alt="Screenshot 2026-08-08 224858" src="https://github.com/user-attachments/assets/b0e8cfe8-d5e7-4c9d-b82b-ba55fe4c551d" />
-
-**3. CREATING THE LAST NAME FILE**
-
-I created another file using my last name:
-touch /tmp/Sathawane
-
-Then I added content to the file:
-echo "Sathawane is my last name" > /tmp/Sathawane
-
-The content was verified using:
-cat /tmp/Sathawane
-
-
-<img width="887" height="85" alt="Screenshot 2026-08-08 225055" src="https://github.com/user-attachments/assets/b1946aae-aa0a-4292-a43a-109ff083d5e9" />
-
-**4. ADDING A LINE AT THE BEGINNING**
-
-The requirement was to add a new line at the beginning of the file
-without using a text editor.
-
-I used a temporary file to achieve this:
+```bash
 echo "this is line at the beginning" > /tmp/temp
-cat /tmp/Sathawane >> /tmp/temp
-mv /tmp/temp /tmp/Sathawane
+cat /tmp/sathawane >> /tmp/temp
+mv /tmp/temp /tmp/sathawane
+```
 
-The temporary file was created with the new first line, the existing
-file content was appended to it, and finally the temporary file was
-renamed to the original filename.
+### 4. Adding Multiple Lines with Heredoc
 
-The final file was checked using:
-cat /tmp/Sathawane
+Instead of repeated `echo` commands, a heredoc (`<< EOF`) is used to append several lines at once:
 
-
-<img width="891" height="130" alt="Screenshot 2026-08-08 225132" src="https://github.com/user-attachments/assets/586ee3b1-f169-47bb-b903-381845aa0de6" />
-
-**5. ADDING MULTIPLE LINES**
-
-I added multiple lines to the same file without using a text editor.
-I used the cat << EOF method:
-
-cat << EOF >> /tmp/Sathawane
+```bash
+cat << EOF >> /tmp/sathawane
 This is line 1
 This is line 2
 This is line 3
-This is line 4
-This is line 5
-This is line 6
-This is line 7
-This is line 8
-This is line 9
+...
 This is line 10
 EOF
+```
 
-This method allows multiple lines to be entered directly from the
-terminal.
+### 5. Viewing Partial File Content
 
-I verified the complete file using:
-cat /tmp/Sathawane
+| Task | Command |
+|---|---|
+| Top 5 lines | `head -5 /tmp/sathawane` |
+| Bottom 2 lines | `tail -2 /tmp/sathawane` |
+| Only line 6 | `head -6 /tmp/sathawane \| tail -1` |
+| Lines 3–8 | `head -8 /tmp/sathawane \| tail -6` |
 
+### 6. Listing Directory Content
 
-<img width="890" height="502" alt="Screenshot 2026-08-08 225215" src="https://github.com/user-attachments/assets/7cf998f6-07aa-4adf-8347-eb36561c9e4a" />
+| Task | Command |
+|---|---|
+| List all content, including hidden files | `ls -la /tmp` |
+| List only files (one level deep) | `find /tmp -maxdepth 1 -type f` |
+| List only directories (one level deep) | `find /tmp -maxdepth 1 -type d` |
 
-**6. VIEWING SPECIFIC LINES OF A FILE**
+`-maxdepth 1` limits the search to the given directory only; `-type f` matches files and `-type d` matches directories.
 
-I used the head and tail commands to display specific portions
-of the file.
+### 7. Copying, Moving, Renaming & Deleting
 
-Top 5 Lines:
-head -5 /tmp/Sathawane
+| Task | Command |
+|---|---|
+| Copy `last-name` file into `/tmp/dir1/dir2` | `cp /tmp/sathawane /tmp/dir1/dir2` |
+| Copy again with a different name | `cp /tmp/sathawane /tmp/dir1/dir2/sathawane.copy` |
+| Rename `first-name` file | `mv /tmp/devashish /tmp/kashish` |
+| Move `last-name` file to `/tmp/dir1` | `mv /tmp/sathawane /tmp/dir1` |
+| Clear content of a file (no trailing empty line) | `> /tmp/dir1/dir2/sathawane.copy` |
+| Delete the file | `rm /tmp/dir1/dir2/sathawane.copy` |
 
-Bottom 2 Lines:
-tail -2 /tmp/Sathawane
+## Constraints
 
-Only the 6th Line:
-head -6 /tmp/Sathawane | tail -1
+- No text editor (e.g. `nano`, `vim`) used to write file content — only shell redirection (`>`, `>>`) and heredocs.
+- **`sed` is not used** anywhere in the assignment, as required.
 
-Lines 3 to 8:
-head -8 /tmp/Sathawane | tail -6
+## Screenshots
 
-These commands helped me understand how to display only the required
-lines from a file.
+<!-- Add your terminal/output screenshots below -->
 
+### PWD & Directory creation
+<img width="888" height="465" alt="image" src="https://github.com/user-attachments/assets/3249b6ff-b6e6-48ca-adb1-96b760a61c67" />
 
-<img width="870" height="375" alt="Screenshot 2026-08-08 225252" src="https://github.com/user-attachments/assets/e26cc164-16da-4686-8200-3e05542aa8a5" />
+### Verify the Directories Recursively  
+<img width="885" height="170" alt="image" src="https://github.com/user-attachments/assets/26d9a744-d893-459c-8700-c5f3a383904d" />
 
-**7. LISTING FILES AND DIRECTORIES**
+### Remove Dir3
+<img width="890" height="125" alt="image" src="https://github.com/user-attachments/assets/8477290b-e2fe-4682-852d-8c5aa3a28e7f" />
 
-I used the ls and find commands to list the contents of /tmp.
+### Create the first name file inside /tmp
+<img width="886" height="240" alt="image" src="https://github.com/user-attachments/assets/c93da8da-2508-4853-9de5-63f1c5f80920" />
 
-To list all content including hidden files:
-ls -la /tmp
+### Add first line without using any text editor
+<img width="892" height="75" alt="image" src="https://github.com/user-attachments/assets/51682670-696b-49f7-9079-aaae6c9d510e" />
 
-The -a option displays hidden files and the -l option displays
-detailed information.
+### Add additional line inside same file
+<img width="888" height="86" alt="image" src="https://github.com/user-attachments/assets/3d06e631-393d-4081-9bd3-a050250a1ab4" />
 
-To list only files:
-find /tmp -maxdepth 1 -type f
+### Create last name file inside /tmp and add fist line without using text editor
+<img width="887" height="88" alt="image" src="https://github.com/user-attachments/assets/900aab6e-acca-47b4-9697-a6ed17534e6b" />
 
-Here:
+### here first created the temporary file then append it with the old file using then replace the original file with the temporary file
+<img width="888" height="127" alt="image" src="https://github.com/user-attachments/assets/bec0bdc7-fc22-4948-aaf8-8d5a8988a003" />
 
--maxdepth 1 limits the search to /tmp.
--type f represents regular files.
+### Here I learn the new command << EOF >> instead using the echo command for multiple lines EOF used to enter multiple lines
+<img width="892" height="495" alt="image" src="https://github.com/user-attachments/assets/052320c0-df46-47e9-b34e-95f46c307186" />
 
-To list only directories:
-find /tmp -maxdepth 1 -type d
+### Head Tails Commands
+<img width="866" height="372" alt="image" src="https://github.com/user-attachments/assets/c42044c0-7d0b-4634-b977-43cf130b1c2c" />
 
-Here -type d represents directories.
+### Here -la used to display hidden files
+<img width="887" height="247" alt="image" src="https://github.com/user-attachments/assets/5be0c032-3302-4ae5-a107-c10c35a61362" />
 
+### Here find command used to search directory or files 
+#### -maxdepth 1 search only in particular one directory
+#### -type f represent files 
+#### -type d represent directories
+<img width="897" height="340" alt="image" src="https://github.com/user-attachments/assets/bae74a96-336b-4188-aff2-f00ebe6f2804" />
+<img width="897" height="375" alt="image" src="https://github.com/user-attachments/assets/ffefc696-9339-447e-afb7-0666bb2b9cf6" />
+<img width="900" height="350" alt="image" src="https://github.com/user-attachments/assets/7e03e8c2-338d-418e-a2d1-16b975420d76" />
 
-<img width="890" height="247" alt="Screenshot 2026-08-08 225348" src="https://github.com/user-attachments/assets/52735416-03f1-408f-9cf3-9d25d77d8b08" />
-<img width="887" height="330" alt="Screenshot 2026-08-08 225406" src="https://github.com/user-attachments/assets/08aa725e-7cfd-4329-a638-eac913bdc551" />
-
-**8. COPYING FILES**
-
-I copied the last-name file into the dir2 directory using the cp
-command:
-cp /tmp/Sathawane /tmp/dir1/dir2/
-
-This created a copy with the same filename.
-
-I then created another copy with a different name:
-cp /tmp/Sathawane /tmp/dir1/dir2/Sathawane.copy
-
-After this, the directory contained:
-
-Sathawane
-Sathawane.copy
-
-
-<img width="887" height="78" alt="Screenshot 2026-08-08 225456" src="https://github.com/user-attachments/assets/35e3553e-e4b4-4144-a0c9-af00d6694dc4" />
-<img width="885" height="75" alt="Screenshot 2026-08-08 225503" src="https://github.com/user-attachments/assets/66a9a009-7436-4287-9327-e3fd42afed92" />
-
-**9. RENAMING A FILE**
-
-I used the mv command to rename the first-name file:
-mv /tmp/Devashish /tmp/Kashish
-
-The mv command can be used to rename a file when the source and
-destination are in the same directory.
-
-I verified the renamed file using:
-ls /tmp | grep kashish
-
-
-<img width="891" height="72" alt="Screenshot 2026-08-08 225617" src="https://github.com/user-attachments/assets/c1e3078e-a897-4b86-ab7d-24299bc29c05" />
-
-**10. MOVING A FILE**
-
-I moved the last-name file from /tmp to /tmp/dir1 using:
-mv /tmp/Sathawane /tmp/dir1/
-
-I verified the file using:
-ls /tmp/dir1
-
-The mv command is used for both moving and renaming files.
-
-
-<img width="890" height="95" alt="Screenshot 2026-08-08 225700" src="https://github.com/user-attachments/assets/00477645-867b-484f-98fb-8fb85098d71e" />
-
-**11. CLEARING FILE CONTENT**
-
-I cleared the content of the copied file without deleting the file.
-
-I used:
-> /tmp/dir1/dir2/Sathawane.copy
-
-This removed all the content from the file while keeping the file
-itself.
-
-I verified the file using:
-cat /tmp/dir1/dir2/Sathawane.copy
-
-The file was empty.
-
-
-<img width="891" height="52" alt="Screenshot 2026-08-08 225757" src="https://github.com/user-attachments/assets/c6b1c2f6-db62-4539-b665-785b5e41dd21" />
-
-**12. DELETING THE FILE**
-
-After clearing the file content, I deleted the same file using:
-rm /tmp/dir1/dir2/Sathawane.copy
-
-I verified the deletion using:
-ls /tmp/dir1/dir2
-
-
-<img width="890" height="76" alt="Screenshot 2026-08-08 225829" src="https://github.com/user-attachments/assets/564c54dc-92a1-4b72-9ab0-761b2792a3ba" />
-
-**COMMANDS LEARNED**
-
-pwd       - Shows the current working directory
-mkdir     - Creates a directory
-mkdir -p  - Creates nested directories
-ls        - Lists files and directories
-ls -la    - Lists all files including hidden files
-ls -R     - Lists directories recursively
-rmdir     - Removes an empty directory
-touch     - Creates an empty file
-echo      - Writes content to a file
-cat       - Displays file content
-head      - Displays beginning lines of a file
-tail      - Displays ending lines of a file
-find      - Finds files and directories
-cp        - Copies files
-mv        - Moves or renames files
-rm        - Deletes files
->         - Writes or clears file content
->>        - Appends content to a file
-|         - Passes output of one command to another command
-
-**KEY LEARNINGS**
-
-Through this assignment, I learned how to:
-
-- Check the current working directory.
-- Create directories and nested directory structures.
-- Create empty files.
-- Write and append content to files.
-- Add multiple lines without using a text editor.
-- Display specific lines from a file.
-- Find files and directories using the find command.
-- List hidden files and directories.
-- Copy files with the same and different names.
-- Rename files using mv.
-- Move files between directories.
-- Clear file content without deleting the file.
-- Delete files and empty directories.
-
-**CONCLUSION**
-
-This assignment gave me hands-on practice with basic Linux file and
-directory management commands.
-
-I learned how to perform common file operations directly from the
-Linux terminal, including creating, viewing, modifying, copying,
-moving, renaming, clearing, and deleting files and directories.
-
-This assignment helped me build a strong foundation for working with
-Linux commands and the terminal.
-
-**NOTE**
-The sed command was not used in this assignment, as instructed.
