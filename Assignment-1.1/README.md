@@ -2,7 +2,7 @@
 
 Submitted by: Devashish Sathawane
 
-OVERVIEW
+**OVERVIEW**
 
 This assignment focuses on practicing basic Linux commands for
 managing directories, files, and file contents.
@@ -10,9 +10,7 @@ managing directories, files, and file contents.
 The assignment was completed using the Linux terminal without using
 the sed command.
 
-============================================================
-1. DIRECTORY MANAGEMENT
-============================================================
+**1. DIRECTORY MANAGEMENT**
 
 First, I checked my current working directory using the pwd command
 and created the required directories using the mkdir command.
@@ -38,9 +36,7 @@ SCREENSHOT:
 <img width="888" height="172" alt="Screenshot 2026-08-08 224608" src="https://github.com/user-attachments/assets/8872996d-f46f-43ee-966e-a47fbc3d4c85" />
 <img width="887" height="128" alt="Screenshot 2026-08-08 224615" src="https://github.com/user-attachments/assets/f63ebd3d-a7d0-4420-a5cf-5c95c00b86a7" />
 
-============================================================
-2. CREATING AND WRITING TO A FILE
-============================================================
+**2. CREATING AND WRITING TO A FILE**
 
 I created an empty file using the touch command:
 touch /tmp/Devashish
@@ -62,9 +58,7 @@ SCREENSHOT:
 <img width="886" height="73" alt="Screenshot 2026-08-08 224848" src="https://github.com/user-attachments/assets/864e8246-ddf7-4e46-af50-57e83cf981e7" />
 <img width="887" height="86" alt="Screenshot 2026-08-08 224858" src="https://github.com/user-attachments/assets/b0e8cfe8-d5e7-4c9d-b82b-ba55fe4c551d" />
 
-============================================================
-3. CREATING THE LAST NAME FILE
-============================================================
+**3. CREATING THE LAST NAME FILE**
 
 I created another file using my last name:
 touch /tmp/Sathawane
@@ -78,9 +72,7 @@ cat /tmp/Sathawane
 SCREENSHOT:
 <img width="887" height="85" alt="Screenshot 2026-08-08 225055" src="https://github.com/user-attachments/assets/b1946aae-aa0a-4292-a43a-109ff083d5e9" />
 
-============================================================
-4. ADDING A LINE AT THE BEGINNING
-============================================================
+**4. ADDING A LINE AT THE BEGINNING**
 
 The requirement was to add a new line at the beginning of the file
 without using a text editor.
@@ -100,9 +92,7 @@ cat /tmp/Sathawane
 SCREENSHOT:
 <img width="891" height="130" alt="Screenshot 2026-08-08 225132" src="https://github.com/user-attachments/assets/586ee3b1-f169-47bb-b903-381845aa0de6" />
 
-============================================================
-5. ADDING MULTIPLE LINES
-============================================================
+**5. ADDING MULTIPLE LINES**
 
 I added multiple lines to the same file without using a text editor.
 I used the cat << EOF method:
@@ -129,9 +119,7 @@ cat /tmp/Sathawane
 SCREENSHOT:
 <img width="890" height="502" alt="Screenshot 2026-08-08 225215" src="https://github.com/user-attachments/assets/7cf998f6-07aa-4adf-8347-eb36561c9e4a" />
 
-============================================================
-6. VIEWING SPECIFIC LINES OF A FILE
-============================================================
+**6. VIEWING SPECIFIC LINES OF A FILE**
 
 I used the head and tail commands to display specific portions
 of the file.
@@ -154,9 +142,7 @@ lines from a file.
 SCREENSHOT:
 <img width="870" height="375" alt="Screenshot 2026-08-08 225252" src="https://github.com/user-attachments/assets/e26cc164-16da-4686-8200-3e05542aa8a5" />
 
-============================================================
-7. LISTING FILES AND DIRECTORIES
-============================================================
+**7. LISTING FILES AND DIRECTORIES**
 
 I used the ls and find commands to list the contents of /tmp.
 
@@ -183,9 +169,7 @@ SCREENSHOT:
 <img width="890" height="247" alt="Screenshot 2026-08-08 225348" src="https://github.com/user-attachments/assets/52735416-03f1-408f-9cf3-9d25d77d8b08" />
 <img width="887" height="330" alt="Screenshot 2026-08-08 225406" src="https://github.com/user-attachments/assets/08aa725e-7cfd-4329-a638-eac913bdc551" />
 
-============================================================
-8. COPYING FILES
-============================================================
+**8. COPYING FILES**
 
 I copied the last-name file into the dir2 directory using the cp
 command:
@@ -205,9 +189,7 @@ SCREENSHOT:
 <img width="887" height="78" alt="Screenshot 2026-08-08 225456" src="https://github.com/user-attachments/assets/35e3553e-e4b4-4144-a0c9-af00d6694dc4" />
 <img width="885" height="75" alt="Screenshot 2026-08-08 225503" src="https://github.com/user-attachments/assets/66a9a009-7436-4287-9327-e3fd42afed92" />
 
-============================================================
-9. RENAMING A FILE
-============================================================
+**9. RENAMING A FILE**
 
 I used the mv command to rename the first-name file:
 mv /tmp/Devashish /tmp/Kashish
@@ -221,9 +203,7 @@ ls /tmp | grep kashish
 SCREENSHOT:
 <img width="891" height="72" alt="Screenshot 2026-08-08 225617" src="https://github.com/user-attachments/assets/c1e3078e-a897-4b86-ab7d-24299bc29c05" />
 
-============================================================
-10. MOVING A FILE
-============================================================
+**10. MOVING A FILE**
 
 I moved the last-name file from /tmp to /tmp/dir1 using:
 mv /tmp/Sathawane /tmp/dir1/
@@ -236,9 +216,7 @@ The mv command is used for both moving and renaming files.
 SCREENSHOT:
 <img width="890" height="95" alt="Screenshot 2026-08-08 225700" src="https://github.com/user-attachments/assets/00477645-867b-484f-98fb-8fb85098d71e" />
 
-============================================================
-11. CLEARING FILE CONTENT
-============================================================
+**11. CLEARING FILE CONTENT**
 
 I cleared the content of the copied file without deleting the file.
 
@@ -256,9 +234,7 @@ The file was empty.
 SCREENSHOT:
 <img width="891" height="52" alt="Screenshot 2026-08-08 225757" src="https://github.com/user-attachments/assets/c6b1c2f6-db62-4539-b665-785b5e41dd21" />
 
-============================================================
-12. DELETING THE FILE
-============================================================
+**12. DELETING THE FILE**
 
 After clearing the file content, I deleted the same file using:
 rm /tmp/dir1/dir2/Sathawane.copy
@@ -269,9 +245,7 @@ ls /tmp/dir1/dir2
 SCREENSHOT:
 <img width="890" height="76" alt="Screenshot 2026-08-08 225829" src="https://github.com/user-attachments/assets/564c54dc-92a1-4b72-9ab0-761b2792a3ba" />
 
-============================================================
-COMMANDS LEARNED
-============================================================
+**COMMANDS LEARNED**
 
 pwd       - Shows the current working directory
 mkdir     - Creates a directory
@@ -293,9 +267,7 @@ rm        - Deletes files
 >>        - Appends content to a file
 |         - Passes output of one command to another command
 
-============================================================
-KEY LEARNINGS
-============================================================
+**KEY LEARNINGS**
 
 Through this assignment, I learned how to:
 
@@ -313,9 +285,7 @@ Through this assignment, I learned how to:
 - Clear file content without deleting the file.
 - Delete files and empty directories.
 
-============================================================
-CONCLUSION
-============================================================
+**CONCLUSION**
 
 This assignment gave me hands-on practice with basic Linux file and
 directory management commands.
@@ -327,8 +297,5 @@ moving, renaming, clearing, and deleting files and directories.
 This assignment helped me build a strong foundation for working with
 Linux commands and the terminal.
 
-============================================================
-NOTE
-============================================================
-
+**NOTE**
 The sed command was not used in this assignment, as instructed.
