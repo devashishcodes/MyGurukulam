@@ -116,14 +116,6 @@ The `t1` pattern generates a right triangle where the number of stars increases 
 
 ./drawStar.sh 5 t1
 
-### Output
-
-*
-**
-***
-****
-*****
-
 ### Screenshot
 <img width="1092" height="250" alt="Screenshot 2026-08-08 231828" src="https://github.com/user-attachments/assets/d3097027-4f24-46fe-9393-b3ae1084c1ec" />
 
@@ -137,14 +129,6 @@ The `t2` pattern generates a left-aligned triangle.
 ### Command
 ./drawStar.sh 5 t2
 
-### Output
-
-*
-**
-***
-****
-*****
-
 ### Screenshot
 <img width="1097" height="273" alt="Screenshot 2026-08-08 231913" src="https://github.com/user-attachments/assets/2f603128-60b8-4770-a6fa-b11bfccd4a17" />
 
@@ -157,14 +141,6 @@ The `t3` pattern generates a centered pyramid.
 
 ### Command
 ./drawStar.sh 5 t3
-
-### Output
-
-    *
-   ***
-  *****
- *******
-*********
 
 ### Screenshot
 <img width="1088" height="248" alt="Screenshot 2026-08-08 231941" src="https://github.com/user-attachments/assets/7835e255-40f3-47c9-b544-5209424ca985" />
@@ -180,14 +156,6 @@ The `t4` pattern generates an inverted triangle where the number of stars decrea
 
 ./drawStar.sh 5 t4
 
-### Output
-
-*****
-****
-***
-**
-*
-
 ### Screenshot
 <img width="1092" height="250" alt="Screenshot 2026-08-08 232018" src="https://github.com/user-attachments/assets/0d96a61d-ad1c-4e89-aba7-61a2e00a6fee" />
 
@@ -201,14 +169,6 @@ The `t5` pattern generates an inverted right-aligned triangle.
 ### Command
 
 ./drawStar.sh 5 t5
-
-### Output
-
-*****
- ****
-  ***
-   **
-    *
 
 ### Screenshot
 <img width="1092" height="246" alt="Screenshot 2026-08-08 232048" src="https://github.com/user-attachments/assets/f2787eb8-f08e-4501-b486-2fc617553aa6" />
@@ -224,14 +184,6 @@ The `t6` pattern generates an inverted pyramid.
 
 ./drawStar.sh 5 t6
 
-### Output
-
-*********
- *******
-  *****
-   ***
-    *
-
 ### Screenshot
 <img width="1097" height="255" alt="Screenshot 2026-08-08 232113" src="https://github.com/user-attachments/assets/cbe4a176-9971-46d7-bff9-d410fe8c0828" />
 
@@ -246,18 +198,6 @@ The `t7` pattern generates a diamond by combining an upper pyramid and a lower i
 ### Command
 
 ./drawStar.sh 5 t7
-
-### Output
-
-    *
-   ***
-  *****
- *******
-*********
- *******
-  *****
-   ***
-    *
 
 ### Screenshot
 <img width="1092" height="435" alt="Screenshot 2026-08-08 232137" src="https://github.com/user-attachments/assets/a79636f3-2eb2-4564-8ba7-1af35877b879" />
