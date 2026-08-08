@@ -2,49 +2,58 @@
 
 **Submitted by:** Devashish Sathawane
 
-Two standalone Bash utilities: a template engine that substitutes `{{placeholder}}` variables in a file, and a lightweight command-line text editor for common line/word editing operations without opening an actual editor.
+Two Bash utilities: a simple template engine that substitutes `{{placeholder}}` variables in a file, and a text editor utility for line/word-level edits from the command line — this time built using `sed`.
 
 ## Part A: templateEngine.sh
 
-Takes a template file containing `{{variable}}` placeholders and a list of `key=value` pairs, and prints the template with each placeholder replaced by its corresponding value.
+Takes a template file containing `{{key}}` placeholders and a list of `key=value` pairs, and prints the template with every placeholder replaced by its corresponding value.
 
 ### Setup
 ```bash
-nano templateEngine.sh
+touch templateEngine.sh
 chmod +x templateEngine.sh
 ```
 
 ### Usage
 ```bash
-./templateEngine.sh <template file> key1=value1 key2=value2 ...
+./templateEngine.sh <template_file> key1=value1 key2=value2 ...
 ```
 
 ### Example
 
-**trainer.template**
+`trainer.template`
 ```
 {{fname}} is trainer of {{topic}}
 ```
 
 ```bash
 ./templateEngine.sh trainer.template fname=sandeep topic=linux
+```
+
+**Output**
+```
 sandeep is trainer of linux
 ```
 
 ### Logic
 
 - Each `key=value` argument is split on `=` to get the variable name and its replacement value.
-- For every pair, the corresponding `{{key}}` token in the template is substituted with `value` (e.g. via `awk`/`bash` string substitution, without using `sed`).
-- The template file itself is left untouched — output is printed (or optionally redirected) rather than edited in place.
-- Placeholders with no matching argument are left as-is (or could be flagged, depending on the implementation).
+- For every pair, `{{key}}` is substituted with `value` across the template's content using `sed` (e.g. `sed "s/{{$key}}/$value/g"`), chaining substitutions across all provided pairs.
+- Placeholders left in the template with no matching argument stay as-is (not substituted).
 
 ## Part B: otTextEditor
 
-A CLI utility for making targeted edits to a text file: inserting or deleting lines, replacing or inserting words, and deleting lines by number or by content.
+A command-line text editor utility for adding, replacing, inserting, and deleting lines/words in a file — implemented **using `sed`** for in-place edits.
 
 ### Setup
 ```bash
-nano otTextEditor
+touch otTextEditor
+chmod +x otTextEditor
+```
+
+### Setup
+```bash
+touch otTextEditor
 chmod +x otTextEditor
 ```
 
@@ -52,40 +61,41 @@ chmod +x otTextEditor
 
 | Command | Description |
 |---|---|
-| `otTextEditor addLineTop <file> <line>` | Insert `<line>` at the top of the file |
-| `otTextEditor addLineBottom <file> <line>` | Append `<line>` at the end of the file |
-| `otTextEditor addLineAt <file> <linenumber> <line>` | Insert `<line>` at a specific line number |
-| `otTextEditor updateFirstWord <file> <word> <word2>` | Replace the first occurrence of `<word>` with `<word2>` |
-| `otTextEditor updateAllWords <file> <word> <word2>` | Replace every occurrence of `<word>` with `<word2>` |
-| `otTextEditor insertWord <file> <word1> <word2> <word to be inserted>` | Insert a word between `<word1>` and `<word2>` |
-| `otTextEditor deleteLine <file> <line no>` | Delete the line at `<line no>` |
-| `otTextEditor deleteLine <file> <line no> <word>` | Delete the line at `<line no>` only if it contains `<word>` |
+| `otTextEditor addLineTop <file> <line>` | Add a line at the top of the file |
+| `otTextEditor addLineBottom <file> <line>` | Add a line at the bottom of the file |
+| `otTextEditor addLineAt <file> <linenumber> <line>` | Insert a line at a specific line number |
+| `otTextEditor updateFirstWord <file> <word> <word2>` | Replace the **first** occurrence of `word` with `word2` |
+| `otTextEditor updateAllWords <file> <word> <word2>` | Replace **all** occurrences of `word` with `word2` |
+| `otTextEditor insertWord <file> <word1> <word2> <insert>` | Insert `<insert>` between `<word1>` and `<word2>` (all occurrences) |
+| `otTextEditor deleteLine <file> <line_no>` | Delete the line at a given line number |
+| `otTextEditor deleteLineWord <file> <word>` | Delete every line that contains `<word>` |
+| `otTextEditor countLines <file>` | Print the total number of lines in the file |
+| `otTextEditor upperCase <file>` | Convert the entire file content to uppercase |
 
-### Examples
-```bash
-./otTextEditor addLineTop notes.txt "Meeting notes"
-./otTextEditor addLineBottom notes.txt "End of file"
-./otTextEditor addLineAt notes.txt 3 "Inserted line"
-./otTextEditor updateFirstWord notes.txt old new
-./otTextEditor updateAllWords notes.txt old new
-./otTextEditor insertWord notes.txt quick brown fox
-./otTextEditor deleteLine notes.txt 5
-./otTextEditor deleteLine notes.txt 5 draft
-```
+### How each command works
 
-### Additional custom features
+| Command | Approach |
+|---|---|
+| `addLineTop` | `sed -i "1i $line" "$file"` — inserts before line 1 |
+| `addLineBottom` | `echo "$line" >> "$file"` — plain append, no `sed` needed |
+| `addLineAt` | `sed -i "${lineno}i $line" "$file"` — inserts before the given line number |
+| `updateFirstWord` | `sed -i "0,/$old/s//$new/" "$file"` — the `0,/pattern/` range restricts the substitution to only the first match in the whole file |
+| `updateAllWords` | `sed -i "s/$old/$new/g" "$file"` — global substitution on every line |
+| `insertWord` | `sed -i "s/$word1 $word2/$word1 $insert $word2/g" "$file"` — matches the exact `word1 word2` sequence and slots `insert` between them |
+| `deleteLine` | `sed -i "${lineno}d" "$file"` — deletes by line number |
+| `deleteLineWord` | `sed -i "/$word/d" "$file"` — deletes every line matching the pattern, not just one |
 
-<!-- List any extra features you added, e.g.: -->
-- `otTextEditor countLines <file>` — print the total number of lines
-- `otTextEditor countWord <file> <word>` — count occurrences of a word
-- `otTextEditor showLine <file> <line no>` — print a single line's content
-- `otTextEditor backup <file>` — create a timestamped backup before editing
+### Additional Features (custom)
 
-### Logic Notes
+Beyond the required commands, two extra utilities were added:
+- **`countLines <file>`** — prints the total number of lines in the file (`wc -l`)
+- **`upperCase <file>`** — converts the entire file's content to uppercase in place (`sed -i 's/.*/\U&/'`)
 
-- All operations avoid `sed`, using combinations of `head`, `tail`, `awk`, `cat`, temp files, and `mv` for safe in-place edits (write to a temp file, then replace the original).
-- Line insertion/deletion is done by splitting the file at the target line number using `head -n` and `tail -n +`, then reassembling with the new/removed content in between.
-- Word replacement uses `awk` (or shell string manipulation) rather than `sed`, since the assignment excludes `sed` use across scripts.
+Any unrecognized command falls through to the `*)` case and prints `"Invalid Command"`.
+
+## Note on `sed`
+
+Unlike the earlier assignments (which deliberately avoided `sed`), **Part B of this assignment uses `sed`** for all in-place line and word edits, since it's the standard, efficient tool for this kind of scripted text editing.
 
 ## Screenshots
 
