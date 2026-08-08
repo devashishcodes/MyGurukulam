@@ -89,7 +89,7 @@ EOF
 
 ## Constraints
 
-- No text editor (e.g. `nano`, `vim`) used to write file content — only shell redirection (`>`, `>>`) and heredocs.
+- No text editor (e.g. `nano`, `vim`) used to write the file content — only shell redirection (`>`, `>>`) and heredocs.
 - **`sed` is not used** anywhere in the assignment, as required.
 
 ## Screenshots
