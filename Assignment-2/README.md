@@ -27,8 +27,6 @@ The main purpose of this assignment is to understand Linux users, groups, permis
 
 The assignment was implemented using Bash Shell Script and Linux user/group management commands.
 
----
-
 # Requirements
 
 The following are required to execute this assignment:
@@ -52,15 +50,11 @@ The following are required to execute this assignment:
 - awk
 - grep
 
----
-
 # Files
 
 Assignment2/
 │── UserManager.sh
 │── README.md
-
----
 
 # User and Team Permission Requirements
 
@@ -92,7 +86,6 @@ Others get:
 
 r-x
 
----
 
 ## Team Member Access
 
@@ -100,13 +93,9 @@ All users belonging to the same team should have read and execute access to the 
 
 This allows users from the same team to access the required home directory.
 
----
-
 ## Other Users
 
 Users outside the team should have only execute access according to the assignment permission requirement.
-
----
 
 # Shared Directories
 
@@ -124,8 +113,6 @@ The `ninja` directory is used as a common shared directory for all Ninja users.
 
 All Ninja users should have full access to this directory.
 
----
-
 # Expected Directory Structure
 
 After creating users, the resultant structure is:
@@ -142,87 +129,57 @@ After creating users, the resultant structure is:
 
 Each user has their own home directory and two shared directories.
 
----
-
 # Creating UserManager.sh
 
 First, create the UserManager.sh file using nano or vim.
 
-### Using nano
-
-nano UserManager.sh
-
 ### Using vim
-
 vim UserManager.sh
 
 The Bash script is then written inside the file.
 
-### Basic Script Header
-
-#!/bin/bash
-
 ### Screenshot
+<img width="1096" height="56" alt="Screenshot 2026-08-08 233129" src="https://github.com/user-attachments/assets/b0d7a7ea-2082-451d-9e9d-6b728442b669" />
 
-[ADD SCREENSHOT HERE]
 
 Screenshot showing the creation of UserManager.sh using nano or vim.
 
----
-
 # Give Executable Permission
-
 Before executing the script, executable permission needs to be given.
 
 ### Command
 
 chmod +x UserManager.sh
-
-Alternatively, the PDF demonstrates:
-
+Alternatively, the Screenshot demonstrates:
 chmod 777 UserManager.sh
 
-Check the permissions:
-
-ls -l UserManager.sh
-
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
+<img width="1232" height="65" alt="Screenshot 2026-08-08 233225" src="https://github.com/user-attachments/assets/c1691b12-b3de-4345-a800-08fb1635532c" />
 
 Screenshot showing chmod and the executable permissions of UserManager.sh.
-
----
 
 # Part A - Team Management
 
 ## 1. Add a Ninja Team
 
 The `addTeam` operation is used to create a new team.
-
 A team is simulated using a Linux group.
 
 ### Command
 
-./UserManager.sh addTeam amigo
-
+./UserManager.sh addTeam team1
 Another team can be created using:
-
-./UserManager.sh addTeam unixkings
+./UserManager.sh addTeam team2
 
 ### Output
 
-Team 'amigo' created
-
-Team 'unixkings' created
+Team 'team1' created
+Team 'team2' created
 
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
+<img width="1496" height="192" alt="Screenshot 2026-08-08 233357" src="https://github.com/user-attachments/assets/b440fa64-c769-4150-b92f-4f79a6f0a045" />
 
 Screenshot showing the creation of two teams.
-
----
 
 # 2. Add a User Under a Team
 
@@ -230,77 +187,16 @@ The `addUser` operation is used to create a user and assign the user to a team.
 
 ### Command
 
-./UserManager.sh addUser Rakesh amigo
-
+./UserManager.sh addUser user1 team1
 Another user can be added:
-
-./UserManager.sh addUser Sandeep unixkings
-
-### Output
-
-User 'Rakesh' added to team 'amigo'
-
-User 'Sandeep' added to team 'unixkings'
-
-The script also creates the user's home directory and the required shared directories.
+./UserManager.sh addUser user2 team2
 
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
+<img width="1523" height="425" alt="Screenshot 2026-08-08 233508" src="https://github.com/user-attachments/assets/e6d2a485-4091-4b72-978f-cffc5e5204cf" />
 
 Screenshot showing users being added to their respective teams.
 
----
-
-# 3. User Home Directory
-
-After adding a user, a home directory is created for that user.
-
-For example:
-
-/home/Rakesh
-
-Inside the home directory:
-
-/home/Rakesh/team
-
-/home/Rakesh/ninja
-
-The same structure is created for other users.
-
-### Screenshot
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the user's home directory structure.
-
----
-
-# 4. Team Shared Directory
-
-The `team` directory is used for sharing data between members of the same team.
-
-Example:
-
-/home/Rakesh/team
-
-Users belonging to the same team are given full access to the team directory.
-
----
-
-# 5. Ninja Shared Directory
-
-The `ninja` directory is used as a common shared directory for all Ninja users.
-
-Example:
-
-/home/Rakesh/ninja
-
-All Ninja users are provided access to this directory according to the assignment requirements.
-
----
-
-# Directory Structure Verification
+# 3. Directory Structure Verification
 
 The `tree` command can be used to verify the directory structure.
 
@@ -319,21 +215,17 @@ sudo tree /home
     └── team
 
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
+<img width="1032" height="427" alt="Screenshot 2026-08-08 233635" src="https://github.com/user-attachments/assets/0ef677d7-b0aa-42aa-995e-49b80c0dd63c" />
 
 Screenshot showing the /home directory structure using the tree command.
 
----
-
 # Part B - Additional Features
 
-## 6. Change User Password
+## 4. Change User Password
 
 The `changePasswd` operation changes the password of an existing user.
 
 ### Command
-
 sudo ./UserManager.sh changePasswd user1
 
 The script asks for the new password and confirmation.
@@ -346,14 +238,9 @@ Retype new password:
 passwd: password updated successfully
 
 ### Screenshot
+<img width="1527" height="185" alt="Screenshot 2026-08-08 233925" src="https://github.com/user-attachments/assets/2573c68e-e2f3-46af-83cb-cb9ff7bf4082" />
 
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the password change operation.
-
----
-
-# 7. Change User Shell
+# 5. Change User Shell
 
 The `changeShell` operation changes the login shell of a user.
 
@@ -361,25 +248,9 @@ The `changeShell` operation changes the login shell of a user.
 
 sudo ./UserManager.sh changeShell user1 /bin/bash
 
-### Output
-
-Shell for 'user1' set to '/bin/bash'
-
-The shell can be verified using:
-
-grep user1 /etc/passwd
-
-or:
-
-getent passwd user1
-
 ### Screenshot
+<img width="1525" height="120" alt="Screenshot 2026-08-08 234023" src="https://github.com/user-attachments/assets/4f48658a-c497-4da2-b675-4e3acacce3c5" />
 
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the user shell being changed.
-
----
 
 # 8. List Users
 
@@ -389,22 +260,8 @@ The `ls User` operation displays the users managed by the system.
 
 sudo ./UserManager.sh ls User
 
-### Example Output
-
-Rakesh team=amigo shell=/bin/bash
-ubuntu team=ubuntu shell=/bin/bash
-user1 team=team1 shell=/bin/bash
-user2 team=team2 shell=/bin/bash
-
-The output shows the username, team, and shell information.
-
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the list of users.
-
----
+<img width="1361" height="247" alt="Screenshot 2026-08-08 234054" src="https://github.com/user-attachments/assets/43b0b910-226f-4ebc-96ce-8af1dee9855a" />
 
 # 9. List Teams
 
@@ -414,63 +271,30 @@ The `ls Team` operation displays the available teams and their members.
 
 sudo ./UserManager.sh ls Team
 
-### Example Output
-
-amigo: Rakesh
-team1: user1
-team2: user2
-
 ### Screenshot
+<img width="1365" height="200" alt="Screenshot 2026-08-08 234122" src="https://github.com/user-attachments/assets/408b6c58-8ab2-40b7-8f08-aa211e77cc9d" />
 
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the list of teams and their members.
-
----
 
 # 10. Delete a User
 
 The `delUser` operation is used to delete an existing user.
 
 ### Command
-
 sudo ./UserManager.sh delUser user1
 
-### Output
-
-User 'user1' deleted
-
-The PDF demonstrates deleting `user1` and then verifying that the user no longer appears in the user list. :contentReference[oaicite:2]{index=2}
-
 ### Screenshot
+<img width="1520" height="140" alt="Screenshot 2026-08-08 234215" src="https://github.com/user-attachments/assets/fb486161-f951-47ec-abb5-e04dbe1c452a" />
 
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the deletion of the user.
-
----
 
 # 11. Delete a Team
 
 The `delTeam` operation is used to delete an existing team.
 
 ### Command
-
 sudo ./UserManager.sh delTeam team1
 
-### Output
-
-Team 'team1' deleted
-
-The team is removed after verifying that it is no longer required by any remaining user.
-
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the deletion of the team.
-
----
+<img width="1517" height="97" alt="Screenshot 2026-08-08 234253" src="https://github.com/user-attachments/assets/f596361d-b6c0-43d8-b44e-bf395b40556d" />
 
 # 12. Verify User and Team Deletion
 
@@ -479,234 +303,10 @@ After deleting a user and team, the `ls User` and `ls Team` commands can be used
 ### Commands
 
 sudo ./UserManager.sh ls User
-
 sudo ./UserManager.sh ls Team
-
-### Example Output
-
-Rakesh team=amigo shell=/bin/bash
-ubuntu team=ubuntu shell=/bin/bash
-user2 team=team2 shell=/bin/bash
-
-amigo: Rakesh
-team2: user2
-
-The deleted user and team should no longer appear in the output.
 
 ### Screenshot
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing verification that the deleted user and team are no longer listed.
-
----
-
-# Important Linux Commands Used
-
-Command        Purpose
-
-useradd        Create a Linux user
-userdel        Delete a Linux user
-groupadd       Create a Linux group
-groupdel       Delete a Linux group
-passwd         Change a user's password
-usermod        Modify user properties
-chmod          Change file and directory permissions
-chown          Change ownership
-mkdir          Create directories
-ls             List files and directories
-tree           Display directory structure
-grep           Search for specific text
-awk            Extract and process text
-getent         Display user/group information
-nano           Edit the shell script
-vim            Edit the shell script
-
----
-
-# Script Usage
-
-The general syntax of the UserManager utility is:
-
-sudo ./UserManager.sh <command> <arguments>
-
----
-
-# Available Commands
-
-## Add Team
-
-sudo ./UserManager.sh addTeam <teamname>
-
-Example:
-
-sudo ./UserManager.sh addTeam amigo
-
----
-
-## Add User
-
-sudo ./UserManager.sh addUser <username> <teamname>
-
-Example:
-
-sudo ./UserManager.sh addUser Rakesh amigo
-
----
-
-## Delete Team
-
-sudo ./UserManager.sh delTeam <teamname>
-
-Example:
-
-sudo ./UserManager.sh delTeam amigo
-
----
-
-## Delete User
-
-sudo ./UserManager.sh delUser <username>
-
-Example:
-
-sudo ./UserManager.sh delUser Rakesh
-
----
-
-## Change Password
-
-sudo ./UserManager.sh changePasswd <username>
-
-Example:
-
-sudo ./UserManager.sh changePasswd Rakesh
-
----
-
-## Change Shell
-
-sudo ./UserManager.sh changeShell <username> <shell>
-
-Example:
-
-sudo ./UserManager.sh changeShell Rakesh /bin/bash
-
----
-
-## List Users
-
-sudo ./UserManager.sh ls User
-
----
-
-## List Teams
-
-sudo ./UserManager.sh ls Team
-
----
-
-# Screenshots
-
-## 1. UserManager.sh Creation
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing UserManager.sh being created using nano or vim.
-
----
-
-## 2. Executable Permission
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing chmod command and executable permission.
-
----
-
-## 3. Team Creation
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing addTeam command creating team1 and team2.
-
----
-
-## 4. User Creation
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing users being added to their respective teams.
-
----
-
-## 5. Home Directory Structure
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the /home directory with user directories and team/ninja shared directories using tree.
-
----
-
-## 6. List Users
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the output of:
-
-sudo ./UserManager.sh ls User
-
----
-
-## 7. List Teams
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the output of:
-
-sudo ./UserManager.sh ls Team
-
----
-
-## 8. Change Password
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the changePasswd operation and successful password update.
-
----
-
-## 9. Change Shell
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the changeShell operation.
-
----
-
-## 10. Delete User
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the delUser operation.
-
----
-
-## 11. Delete Team
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing the delTeam operation.
-
----
-
-## 12. Verify Deletion
-
-[ADD SCREENSHOT HERE]
-
-Screenshot showing ls User and ls Team after deleting the user and team.
-
----
+<img width="1397" height="327" alt="Screenshot 2026-08-08 234329" src="https://github.com/user-attachments/assets/251087f0-99bd-46fb-838e-13bbe6b6eef6" />
 
 # Result
 
@@ -728,7 +328,6 @@ The assignment demonstrates practical Linux concepts including:
 - Command-line arguments
 - Case statements
 
----
 
 # Conclusion
 
@@ -740,10 +339,7 @@ The assignment helped in understanding how users and groups can be managed in Li
 
 It also provided practical experience with Linux commands such as useradd, userdel, groupadd, groupdel, passwd, usermod, chmod, chown, mkdir, ls, tree, grep, and awk.
 
----
-
 # Author
-
 Devashish Sathawane
 
 Assignment 2 - UserManager Utility
