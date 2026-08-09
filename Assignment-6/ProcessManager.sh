@@ -1,240 +1,132 @@
 #!/bin/bash
+# ProcessManager.sh - Register/start/stop/monitor services (Part B)
 
-DB="$HOME/.processmanager.db"
-LOGDIR="$HOME/.processmanager"
+REG_DIR="$HOME/.processmanager"
+mkdir -p "$REG_DIR"
+REG_FILE="$REG_DIR/registry.txt"   # alias|path|priority
+touch "$REG_FILE"
 
-mkdir -p "$LOGDIR"
-touch "$DB"
-
-get_info()
-{
-    grep "^$alias|" "$DB"
+usage() {
+  echo "Usage:"
+  echo "  $0 -o register -s <path> -a <alias>"
+  echo "  $0 -o start -a <alias>"
+  echo "  $0 -o status -a <alias>"
+  echo "  $0 -o kill -a <alias>"
+  echo "  $0 -o priority -p <low/med/high> -a <alias>"
+  echo "  $0 -o list"
+  echo "  $0 -o top [-a <alias>]"
+  exit 1
 }
 
-case "$1" in
+get_entry() {
+  grep "^$1|" "$REG_FILE"
+}
 
--o)
+get_pidfile() {
+  echo "$REG_DIR/$1.pid"
+}
 
-    operation="$2"
+register() {
+  local path=$1 alias=$2
+  if [ -z "$path" ] || [ -z "$alias" ]; then usage; fi
+  if get_entry "$alias" >/dev/null; then
+    echo "Alias '$alias' already registered"
+    return
+  fi
+  echo "$alias|$path|med" >> "$REG_FILE"
+  echo "Registered '$alias' -> $path"
+}
 
-    case "$operation" in
+start_service() {
+  local alias=$1
+  local entry=$(get_entry "$alias")
+  if [ -z "$entry" ]; then echo "Alias not registered"; return; fi
+  local path=$(echo "$entry" | cut -d'|' -f2)
+  nohup bash "$path" >/dev/null 2>&1 &
+  local pid=$!
+  echo "$pid" > "$(get_pidfile "$alias")"
+  echo "Started '$alias' as daemon, PID=$pid"
+}
 
-    register)
+status_service() {
+  local alias=$1
+  local pidfile=$(get_pidfile "$alias")
+  if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+    echo "'$alias' is RUNNING (PID $(cat "$pidfile"))"
+  else
+    echo "'$alias' is NOT running"
+  fi
+}
 
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -s)
-                    script="$2"
-                    shift 2
-                    ;;
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
+kill_service() {
+  local alias=$1
+  local pidfile=$(get_pidfile "$alias")
+  if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+    kill -9 "$(cat "$pidfile")"
+    echo "Killed '$alias' (PID $(cat "$pidfile"))"
+    rm -f "$pidfile"
+  else
+    echo "'$alias' is not running"
+  fi
+}
 
-        echo "$alias|$script|0" >> "$DB"
+change_priority() {
+  local level=$1 alias=$2
+  local pidfile=$(get_pidfile "$alias")
+  local nice_val
+  case "$level" in
+    low) nice_val=15 ;;
+    med) nice_val=0 ;;
+    high) nice_val=-10 ;;
+    *) echo "priority must be low/med/high"; return ;;
+  esac
+  if [ -f "$pidfile" ]; then
+    renice "$nice_val" -p "$(cat "$pidfile")" >/dev/null 2>&1
+  fi
+  # update registry entry
+  sed -i "s/^$alias|\([^|]*\)|.*/$alias|\1|$level/" "$REG_FILE"
+  echo "Priority of '$alias' set to $level"
+}
 
-        echo "Service registered: $alias"
-        ;;
+list_services() {
+  cut -d'|' -f1 "$REG_FILE"
+}
 
-    start)
+top_services() {
+  local filter=$1
+  printf "%-12s %-8s %-10s %-8s %-s\n" "ALIAS" "PID" "STATE" "PRIORITY" "SCRIPT"
+  while IFS='|' read -r alias path priority; do
+    [ -z "$alias" ] && continue
+    if [ -n "$filter" ] && [ "$alias" != "$filter" ]; then continue; fi
+    local pidfile=$(get_pidfile "$alias")
+    local pid="-" state="STOPPED"
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+      pid=$(cat "$pidfile")
+      state=$(ps -o stat= -p "$pid" | tr -d ' ')
+    fi
+    printf "%-12s %-8s %-10s %-8s %-s\n" "$alias" "$pid" "$state" "$priority" "$path"
+  done < "$REG_FILE"
+}
 
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
+# ---- parse args ----
+op=""; path=""; alias=""; priority=""
+while getopts "o:s:a:p:" opt; do
+  case "$opt" in
+    o) op=$OPTARG ;;
+    s) path=$OPTARG ;;
+    a) alias=$OPTARG ;;
+    p) priority=$OPTARG ;;
+    *) usage ;;
+  esac
+done
 
-        info=$(get_info)
-
-        if [ -z "$info" ]; then
-            echo "Service not registered"
-            exit 1
-        fi
-
-        script=$(echo "$info" | cut -d'|' -f2)
-
-        nohup bash "$script" > "$LOGDIR/$alias.log" 2>&1 &
-
-        pid=$!
-
-        sed -i "s/^$alias|.*|.*/$alias|$script|$pid/" "$DB"
-
-        echo "Service started"
-        echo "PID: $pid"
-        ;;
-
-    status)
-
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
-
-        info=$(get_info)
-
-        pid=$(echo "$info" | cut -d'|' -f3)
-
-        if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
-        then
-            echo "$alias is RUNNING (PID: $pid)"
-        else
-            echo "$alias is NOT RUNNING"
-        fi
-        ;;
-
-    kill)
-
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
-
-        info=$(get_info)
-
-        pid=$(echo "$info" | cut -d'|' -f3)
-
-        if [ -n "$pid" ]; then
-            kill "$pid"
-            echo "$alias stopped"
-        fi
-        ;;
-
-    priority)
-
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                -p)
-                    priority="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
-
-        info=$(get_info)
-        pid=$(echo "$info" | cut -d'|' -f3)
-
-        case "$priority" in
-            high)
-                value=5
-                ;;
-            med)
-                value=10
-                ;;
-            low)
-                value=15
-                ;;
-            *)
-                echo "Use high, med or low"
-                exit 1
-                ;;
-        esac
-
-        renice -n "$value" -p "$pid"
-        ;;
-
-    list)
-
-        cut -d'|' -f1 "$DB"
-        ;;
-
-    top)
-
-        while [ $# -gt 0 ]
-        do
-            case "$1" in
-                -a)
-                    alias="$2"
-                    shift 2
-                    ;;
-                *)
-                    shift
-                    ;;
-            esac
-        done
-
-        if [ -n "$alias" ]; then
-
-            info=$(get_info)
-
-            pid=$(echo "$info" | cut -d'|' -f3)
-            script=$(echo "$info" | cut -d'|' -f2)
-
-            ps -p "$pid" -o pid=,stat=,ni=
-
-            echo "Alias: $alias"
-            echo "Script: $script"
-
-        else
-
-            echo "Alias PID State Priority Script"
-
-            while IFS='|' read -r alias script pid
-            do
-                if [ "$pid" != "0" ]; then
-                    state=$(ps -p "$pid" -o stat= 2>/dev/null)
-                    priority=$(ps -p "$pid" -o ni= 2>/dev/null)
-
-                    echo "$alias $pid $state $priority $script"
-                fi
-            done < "$DB"
-
-        fi
-        ;;
-
-    *)
-        echo "Invalid operation"
-        ;;
-
-    esac
-    ;;
-
-*)
-    echo "Usage:"
-    echo "./ProcessManager.sh -o register -s <script> -a <alias>"
-    echo "./ProcessManager.sh -o start -a <alias>"
-    echo "./ProcessManager.sh -o status -a <alias>"
-    echo "./ProcessManager.sh -o kill -a <alias>"
-    echo "./ProcessManager.sh -o priority -p <high/med/low> -a <alias>"
-    echo "./ProcessManager.sh -o list"
-    echo "./ProcessManager.sh -o top [-a <alias>]"
-    ;;
-
+case "$op" in
+  register) register "$path" "$alias" ;;
+  start) start_service "$alias" ;;
+  status) status_service "$alias" ;;
+  kill) kill_service "$alias" ;;
+  priority) change_priority "$priority" "$alias" ;;
+  list) list_services ;;
+  top) top_services "$alias" ;;
+  *) usage ;;
 esac
