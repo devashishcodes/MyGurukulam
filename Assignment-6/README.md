@@ -154,22 +154,40 @@ A process holds an open file by its **inode**, not by its **path**. Clearing or 
 <!-- Add your terminal/output screenshots below -->
 
 ### Part A: otProcessManager script and commands
-_(screenshot here)_
+<img width="898" height="63" alt="image" src="https://github.com/user-attachments/assets/3057afb6-0858-4664-aecc-fb9224750b26" />
+<img width="975" height="180" alt="image" src="https://github.com/user-attachments/assets/56d98a3a-8cc3-46c3-98ac-6794ecd894eb" />
+<img width="975" height="322" alt="image" src="https://github.com/user-attachments/assets/149678e0-3c6b-4a35-a3c9-376d4d4448bb" />
+<img width="975" height="120" alt="image" src="https://github.com/user-attachments/assets/05241ea1-db2b-4b2e-97c2-fc0b114b3a13" />
+<img width="563" height="119" alt="image" src="https://github.com/user-attachments/assets/6fd49fe9-e87f-4814-a199-e6e153e54413" />
+<img width="975" height="91" alt="image" src="https://github.com/user-attachments/assets/0da4410c-4ae8-4e38-8e0b-4b6682fe09ca" />
+<img width="975" height="425" alt="image" src="https://github.com/user-attachments/assets/6d43c05c-10e4-450f-8d6b-fe7bb273b47d" />
+<img width="975" height="58" alt="image" src="https://github.com/user-attachments/assets/df80d956-1900-4da4-b3f5-fea2699f1698" />
+<img width="975" height="82" alt="image" src="https://github.com/user-attachments/assets/3955c594-a024-490c-bd5f-855566b7539b" />
 
 ### Part B: ProcessManager.sh script
-_(screenshot here)_
+<img width="904" height="59" alt="image" src="https://github.com/user-attachments/assets/ce7a0bb0-f76c-43b0-8b80-66e0d01cff6b" />
+<img width="881" height="171" alt="image" src="https://github.com/user-attachments/assets/371e0a1c-cffc-43ce-bf38-3ab9916e2f0e" />
 
 ### Part B: register, start, status, kill, priority, list, top
-_(screenshot here)_
+<img width="975" height="41" alt="image" src="https://github.com/user-attachments/assets/1b81bb35-8647-417e-a927-8d42196fe8c1" />
+<img width="975" height="101" alt="image" src="https://github.com/user-attachments/assets/c18a1e40-9857-46ba-b740-689a39bdf84a" />
+<img width="975" height="42" alt="image" src="https://github.com/user-attachments/assets/a5a766cd-72d8-4f18-a11e-cf3b189eeecc" />
+<img width="975" height="187" alt="image" src="https://github.com/user-attachments/assets/f0891273-a029-4733-815e-ba5f784152a9" />
+<img width="975" height="51" alt="image" src="https://github.com/user-attachments/assets/09b3fe7a-b184-41e0-afe6-9a424580d30a" />
+<img width="975" height="122" alt="image" src="https://github.com/user-attachments/assets/e408b8de-130c-46c1-986e-d7eb0a994adf" />
 
 ### Part C: starting the background logger
-_(screenshot here)_
+<img width="975" height="99" alt="image" src="https://github.com/user-attachments/assets/f50a1300-60b3-4c79-9018-8405e1ae7855" />
+<img width="769" height="665" alt="image" src="https://github.com/user-attachments/assets/4112fa35-617e-4c2a-bd98-f68ed6d439e8" />
 
 ### Part C: clearing the log file
-_(screenshot here)_
+<img width="740" height="115" alt="image" src="https://github.com/user-attachments/assets/ef617306-cf0d-43f1-89bf-a81823b7818b" />
+<img width="769" height="433" alt="image" src="https://github.com/user-attachments/assets/c8ded293-253f-4fdd-9f58-1481933aea3c" />
 
 ### Part C: deleting the log file
-_(screenshot here)_
+<img width="765" height="115" alt="image" src="https://github.com/user-attachments/assets/50e958dc-e54d-4aa9-8729-8c2c676c68a1" />
+<img width="975" height="120" alt="image" src="https://github.com/user-attachments/assets/1f78349d-bab1-409e-865c-49d4ac272af2" />
 
 ### Part C: elevating priority and cleanup
-_(screenshot here)_
+<img width="889" height="145" alt="image" src="https://github.com/user-attachments/assets/1dfd1416-3a17-4cb1-a29a-b6873610e11d" />
+<img width="809" height="176" alt="image" src="https://github.com/user-attachments/assets/4db628a8-a0c0-473d-b62e-53fb52fccce4" />
