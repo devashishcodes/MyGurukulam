@@ -1,81 +1,93 @@
 # Assignment 3 – drawStar.sh & printTomcat.sh
 
-**Submitted by:** Devashish Sathawane
+Submitted by Devashish Sathawane
 
-Two standalone Bash scripts: one that draws different star/triangle/diamond patterns based on a size and type argument, and one that plays a FizzBuzz-style "TomCat" game based on divisibility rules.
+## Part A: Make drawStar.sh
 
-## Part A: drawStar.sh
+Script takes 2 arguments — size and type — and prints a star pattern.
 
-Generates a star pattern. Takes two arguments — `size` and `type` (`t1`–`t7`) — and prints the corresponding shape using nested loops and `printf`.
-
-### Setup
 ```bash
 nano drawStar.sh
+```
+<img width="486" height="31" alt="image" src="https://github.com/user-attachments/assets/4a174ae3-c58b-4222-b8bb-d7b001c951b0" />
+
+```bash
 chmod +x drawStar.sh
-```
-
-### Usage
-```bash
-./drawStar.sh <size> <type>
-```
-
-### Types
-
-| Type | Shape |
-|---|---|
-| `t1` | Right-aligned right triangle |
-| `t2` | Left-aligned triangle |
-| `t3` | Pyramid |
-| `t4` | Inverted left triangle |
-| `t5` | Inverted right triangle |
-| `t6` | Inverted pyramid |
-| `t7` | Diamond |
-
-### Examples
-```bash
 ./drawStar.sh 5 t1
+```
+```
     *
    **
   ***
  ****
 *****
+```
+<img width="530" height="156" alt="image" src="https://github.com/user-attachments/assets/c03223fe-2c56-4ba2-a334-fcfc58280d82" />
 
+```bash
 ./drawStar.sh 5 t2
+```
+```
 *
 **
 ***
 ****
 *****
+```
+<img width="527" height="132" alt="image" src="https://github.com/user-attachments/assets/6826a222-a590-4166-aa2a-3eb0711202bf" />
 
+```bash
 ./drawStar.sh 5 t3
+```
+```
     *
    ***
   *****
  *******
 *********
+```
+<img width="522" height="125" alt="image" src="https://github.com/user-attachments/assets/16f0900a-a2ed-41e5-a976-0b0e8714f8f3" />
 
+```bash
 ./drawStar.sh 5 t4
+```
+```
 *****
 ****
 ***
 **
 *
+```
+<img width="530" height="122" alt="image" src="https://github.com/user-attachments/assets/01f44bda-2831-4ff0-8274-c676edc31a1f" />
 
+```bash
 ./drawStar.sh 5 t5
+```
+```
 *****
  ****
   ***
    **
     *
+```
+<img width="538" height="122" alt="image" src="https://github.com/user-attachments/assets/aab1890e-a40f-47aa-8b7c-678ad1e583a2" />
 
+```bash
 ./drawStar.sh 5 t6
+```
+```
 *********
  *******
   *****
    ***
     *
+```
+<img width="530" height="123" alt="image" src="https://github.com/user-attachments/assets/ebb73a91-dc6e-49b0-a2ca-38ae0b36b1d6" />
 
+```bash
 ./drawStar.sh 5 t7
+```
+```
     *
    ***
   *****
@@ -86,65 +98,31 @@ chmod +x drawStar.sh
    ***
     *
 ```
+<img width="527" height="205" alt="image" src="https://github.com/user-attachments/assets/61d1796b-23d5-48f5-9bbe-f52a1497f3b2" />
 
-### Logic
+## Part B: Make printTomcat.sh
 
-- Each shape is built with an outer loop for rows and one or two inner loops: one to `printf` leading spaces, one to `printf` the `*` characters.
-- `t7` (diamond) is simply an upper pyramid (`t3` logic) followed by a lower pyramid (mirrored, shrinking from `size-1`).
-- Invalid `type` values fall through to a `case` default that prints `"Invalid Type"`.
-- The script validates argument count first (`$# -ne 2`) and exits with a usage message if size/type aren't both supplied.
+Script takes a number and prints:
+- `tom` if divisible by 3
+- `cat` if divisible by 5
+- `tomcat` if divisible by 15
 
-## Part B: printTomcat.sh
-
-A FizzBuzz-style script: given a number, it prints `tom`, `cat`, `tomcat`, or nothing, based on divisibility.
-
-### Setup
 ```bash
 nano printTomcat.sh
+```
+<img width="515" height="32" alt="image" src="https://github.com/user-attachments/assets/7bc9bebc-31ee-486a-b745-71a88e3aac05" />
+
+```bash
 chmod +x printTomcat.sh
-```
-
-### Usage
-```bash
-./printTomcat.sh <number>
-```
-
-### Rules
-
-| Condition | Output |
-|---|---|
-| Divisible by 15 | `tomcat` |
-| Divisible by 3 (not 15) | `tom` |
-| Divisible by 5 (not 15) | `cat` |
-| Otherwise | *(no output)* |
-
-The divisible-by-15 check is placed first in the `if`/`elif` chain so multiples of 15 (which are also multiples of 3 and 5) print `tomcat` rather than `tom` or `cat`.
-
-### Examples
-```bash
 ./printTomcat.sh 7
-
 ./printTomcat.sh 6
-tom
-
 ./printTomcat.sh 10
-cat
-
 ./printTomcat.sh 30
+```
+```
+(no output)
+tom
+cat
 tomcat
 ```
-
-## Screenshots
-
-<!-- Add your terminal/output screenshots below -->
-
-### drawStar.sh script and t1 output
-<img width="547" height="37" alt="image" src="https://github.com/user-attachments/assets/54968de3-eea8-4da9-b314-c1cddfe974dd" />
-<img width="610" height="172" alt="image" src="https://github.com/user-attachments/assets/38a2d0f8-8b43-4b6b-ad1f-62e7324456ab" />
-
-### drawStar.sh outputs for t2–t7
-<img width="532" height="820" alt="image" src="https://github.com/user-attachments/assets/c1c88ba5-2fd1-446b-ad53-d9b7bdebc3c7" />
-
-### printTomcat.sh script and outputs
-<img width="503" height="25" alt="image" src="https://github.com/user-attachments/assets/c9fdd4cc-a84a-43c6-8743-045e24d2f248" />
-<img width="572" height="205" alt="image" src="https://github.com/user-attachments/assets/885c17f7-262d-4e39-95be-bd29f53ff91b" />
+<img width="572" height="203" alt="image" src="https://github.com/user-attachments/assets/bc37dafb-558d-444e-856d-c75a1e5bf60b" />
