@@ -79,7 +79,7 @@ Commands: `-a` (add), `-u` (update), `ls`, `ls -d`, `rm`, and connect by name.
 ```
 [ERROR]: Server information is not available.
 ```
-_(screenshot here)_
+<img width="1095" height="117" alt="image" src="https://github.com/user-attachments/assets/0db1023e-87fb-4e74-b385-b761430d6d8f" />
 
 ```bash
 ./otssh server3
@@ -88,4 +88,4 @@ _(screenshot here)_
 Connecting to server3...
 Connecting to server3 on 2022 port as ubuntu via /home/ubuntu/.ssh/server3.pem key
 ```
-<img width="1092" height="202" alt="image" src="https://github.com/user-attachments/assets/158c9ff8-1068-4f2a-a56f-7e22de2623c5" />
+<img width="1092" height="87" alt="image" src="https://github.com/user-attachments/assets/c9ea8bd7-a3c3-44f4-84da-0e250a6db303" />
