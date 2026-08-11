@@ -130,6 +130,3 @@ Connecting to server3 on 2022 port as ubuntu via ~/.ssh/server3.pem key
 
 ### Deleting connections and verify
 <img width="1092" height="487" alt="image" src="https://github.com/user-attachments/assets/094726bd-a4bd-466f-a369-d765a2f1116a" />
-
-### Connecting to a server (success and error cases)
-_(screenshot here)_
