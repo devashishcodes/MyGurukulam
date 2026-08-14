@@ -100,8 +100,7 @@ Runs `mvn site`.
 <img width="975" height="277" alt="image" src="https://github.com/user-attachments/assets/23b414e9-fac3-4929-b542-be9407c1d9ca" />
 
 ### Verify on browser
-<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/b8e9ea6e-179a-4767-86c8-d3a3dae7e972" />
 ```
 http://localhost:8080
 ```
-![Tomcat webapp in browser](screenshots/a7-18-tomcat-browser.png)
+<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/b8e9ea6e-179a-4767-86c8-d3a3dae7e972" />
