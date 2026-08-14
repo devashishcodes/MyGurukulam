@@ -1,166 +1,107 @@
-# Assignment 7 Maven Build Utility
+# Assignment 7 – buildMaven.sh
 
-A shell script to manage the build lifecycle of a Maven-based Java project.
+Submitted by Devashish Sathawane
 
-## Submitted by Devashish Sathawane
+A utility to manage build operations of a maven based java project (generate artifact, install to local repo, static code analysis, unit tests, deploy to tomcat).
 
-Create a utility to manage build operations of a maven based java project such as:
+Repo used: https://github.com/opstree/spring3hibernate.git
 
-**Mandatory**
-- Generate the artifact of project
-- Upload the artifact of project to local repo
-- Perform static code analysis of project using any of the tool, which will be provided as an argument in commandline
-  - checkstyle
-  - findbugs
-  - pmd
-- Perform unit test case analysis of the project
-  - Unit tests
-  - code coverage
-- Deploy the artifact to webserver (tomcat)
+## Flags
 
-**Optional**
-- Generate documentation of an application
-- Update build definition to fail build if various thresholds are not met in
-  - checkstyle
-  - findbugs
-  - pmd
-  - code coverage
-
-**Repo:** https://github.com/opstree/spring3hibernate.git
-
-```
-./buildMaven.sh -a
-./buildMaven.sh -i
-./buildMaven.sh -s checkstyle
-./buildMaven.sh -s findbugs
-./buildMaven.sh -s pmd
-./buildMaven.sh -t <unit_test_plugin_name>
-./buildMaven.sh -d
-```
-
-**Flags**
 | Flag | Meaning |
 |---|---|
-| `-a` | Generate the artifact |
-| `-i` | Install the artifact to the local repo |
-| `-s` | Run static code analysis (checkstyle / findbugs / pmd) |
-| `-t` | Run unit testing (surefire / jacoco) |
-| `-d` | Deploy the artifact to Tomcat |
-| `-c` | (optional) Generate documentation |
-| `-q` | (optional) Quiet mode, shorter output |
+| `-a` | Generate artifact |
+| `-i` | Install artifact to local repo |
+| `-s <tool>` | Static code analysis (checkstyle / findbugs / pmd) |
+| `-t <plugin>` | Unit testing + code coverage |
+| `-c` | Generate project documentation |
+| `-d` | Deploy artifact to tomcat |
 
----
+## Clone the repo
 
-## Setup
+```bash
+git clone https://github.com/opstree/spring3hibernate.git
+```
+<img width="975" height="22" alt="image" src="https://github.com/user-attachments/assets/01dfdff3-9949-4637-8050-090e54182fca" />
 
-1. Clone the script and `pom.xml` plugins into place (script auto-clones the project repo on first run).
-2. Make sure Maven, Java, and Tomcat are installed.
-3. Give the script execute permission:
-   ```bash
-   chmod +x buildMaven.sh
-   ```
+## Write and give permission to buildMaven.sh
 
----
+```bash
+nano buildMaven.sh
+chmod +x buildMaven.sh
+```
+<img width="975" height="69" alt="image" src="https://github.com/user-attachments/assets/9593f182-bbe3-4d32-8f81-12bbda0ac3e4" />
 
-## Step 1: Generate the artifact
+## Generate artifact (-a)
 
 ```bash
 ./buildMaven.sh -a
 ```
+Runs `mvn clean package`.
+<img width="975" height="351" alt="image" src="https://github.com/user-attachments/assets/aa8fb3d5-8a34-46ff-bec4-03c1a034a04d" />
+<img width="975" height="413" alt="image" src="https://github.com/user-attachments/assets/503e5ad1-7a51-4a5e-850a-2f93a1eb37d9" />
 
-Runs `mvn clean package`. Builds the `.war` file into `target/`.
-
-*(screenshot: terminal output showing `BUILD SUCCESS` and the `.war` file created)*
-
----
-
-## Step 2: Install artifact to local repo
+## Install artifact to local repo (-i)
 
 ```bash
 ./buildMaven.sh -i
 ```
+Runs `mvn clean install`.
+<img width="975" height="425" alt="image" src="https://github.com/user-attachments/assets/4ed65194-f3af-43fc-9ee5-f08a669f430c" />
+<img width="975" height="336" alt="image" src="https://github.com/user-attachments/assets/a70a2122-0a69-4c0c-ad1e-3856fb39a01a" />
 
-Runs `mvn clean install`. Copies the artifact into `~/.m2/repository`.
-
-*(screenshot: terminal output showing `BUILD SUCCESS`)*
-
----
-
-## Step 3: Static code analysis
+## Static code analysis – checkstyle (-s checkstyle)
 
 ```bash
 ./buildMaven.sh -s checkstyle
+```
+<img width="975" height="353" alt="image" src="https://github.com/user-attachments/assets/360baa59-7a62-4c34-bd60-b62a653ce156" />
+<img width="975" height="393" alt="image" src="https://github.com/user-attachments/assets/5d752e9c-db09-44ee-b28e-6506ce32d276" />
+
+## Static code analysis – findbugs (-s findbugs)
+
+```bash
 ./buildMaven.sh -s findbugs
+```
+Uses SpotBugs plugin.
+<img width="975" height="332" alt="image" src="https://github.com/user-attachments/assets/1ab06889-f5ed-488e-a484-b82db165c5a2" />
+<img width="975" height="124" alt="image" src="https://github.com/user-attachments/assets/bc0fdfc8-865b-402d-be58-47d3dae0c951" />
+
+## Static code analysis – pmd (-s pmd)
+
+```bash
 ./buildMaven.sh -s pmd
 ```
+<img width="975" height="356" alt="image" src="https://github.com/user-attachments/assets/295bad10-4f6f-4faf-9097-c64c6ba54c2d" />
 
-Each command runs the matching plugin and generates a report under `target/`.
-
-*(screenshot: checkstyle output showing violations found)*
-
-*(screenshot: findbugs/spotbugs output)*
-
-*(screenshot: pmd output)*
-
----
-
-## Step 4: Unit tests + code coverage
+## Unit test + code coverage (-t jacoco)
 
 ```bash
 ./buildMaven.sh -t jacoco
 ```
+<img width="975" height="272" alt="image" src="https://github.com/user-attachments/assets/faa4fb80-f625-46ad-b7d5-ecba2a9f195e" />
+<img width="975" height="274" alt="image" src="https://github.com/user-attachments/assets/a1a5fedf-2c45-41e6-bbdb-97d58f097a12" />
 
-Runs the unit tests and generates a code coverage report.
-
-*(screenshot: terminal output showing `Tests run: X, Failures: 0` and coverage report generated)*
-
-Coverage report: `target/site/jacoco/index.html`
-
----
-
-## Step 5: Deploy to Tomcat
-
-```bash
-./buildMaven.sh -d
-```
-
-Deploys the built `.war` file to the Tomcat server using the `tomcat6-maven-plugin`.
-
-![Deploy success](screenshots/deploy-success.png)
-
-Once deployed, the application is live and reachable in the browser:
-
-![App running in browser](screenshots/app-running-browser.png)
-
----
-
-## Step 6 (Optional): Generate documentation
+## Generate documentation (-c)
 
 ```bash
 ./buildMaven.sh -c
 ```
+Runs `mvn site`.
+<img width="975" height="153" alt="image" src="https://github.com/user-attachments/assets/319111d8-2403-447a-ba88-2f0307fc28da" />
+<img width="975" height="258" alt="image" src="https://github.com/user-attachments/assets/e42725e3-8110-4a98-b5b7-2177cf913172" />
 
-Runs `mvn site`, generating the project documentation site at `target/site/index.html`.
-
-*(screenshot: docs generated / site folder)*
-
----
-
-## Optional: Fail build on quality thresholds
-
-The `pom.xml` has commented-out threshold blocks for checkstyle, findbugs, pmd, and jacoco. Uncommenting them (and setting the desired minimum values) makes the build fail automatically if code quality or test coverage drops below the configured bar - useful for enforcing quality gates in CI.
-
----
-
-## Full command sequence
+## Deploy artifact to Tomcat (-d)
 
 ```bash
-./buildMaven.sh -s checkstyle
-./buildMaven.sh -s findbugs
-./buildMaven.sh -s pmd
-./buildMaven.sh -t jacoco
-./buildMaven.sh -c
-./buildMaven.sh -a
-./buildMaven.sh -i
 ./buildMaven.sh -d
 ```
+<img width="975" height="219" alt="image" src="https://github.com/user-attachments/assets/e6f4a7d8-8482-4745-a143-4a0420a9208b" />
+<img width="975" height="277" alt="image" src="https://github.com/user-attachments/assets/23b414e9-fac3-4929-b542-be9407c1d9ca" />
+
+### Verify on browser
+<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/b8e9ea6e-179a-4767-86c8-d3a3dae7e972" />
+```
+http://localhost:8080
+```
+![Tomcat webapp in browser](screenshots/a7-18-tomcat-browser.png)
