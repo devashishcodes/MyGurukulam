@@ -1,0 +1,98 @@
+---
+# 1. SOFTWARE / PACKAGE MANAGEMENT
+sm_packages_state: present
+
+sm_packages:
+  - git
+  - vim
+  - curl
+  - wget
+  - htop
+  - unzip
+  - tree
+  - net-tools
+
+# 2. USER MANAGEMENT
+sm_users:
+  - name: devops
+    comment: "DevOps Engineer"
+    groups: sudo
+    shell: /bin/bash
+    state: present
+    create_home: true
+    generate_ssh_key: true
+    ssh_authorized_keys: []
+
+  - name: appuser
+    comment: "Application Service User"
+    groups: []
+    shell: /bin/bash
+    state: present
+    create_home: true
+    generate_ssh_key: false
+    ssh_authorized_keys: []
+
+sm_users_absent: []
+
+# 3. GIT REPOSITORY MANAGEMENT
+sm_git_repos:
+  - name: sample-app
+    repo: "https://github.com/ansible/ansible-examples.git"
+    dest: /opt/repos/sample-app
+    version: master
+    owner: devops
+    group: devops
+
+# 4. FOLDER STRUCTURE MANAGEMENT
+sm_directories:
+  - path: /opt/repos
+    owner: devops
+    group: devops
+    mode: "0755"
+
+  - path: /opt/apps
+    owner: appuser
+    group: appuser
+    mode: "0755"
+
+  - path: /opt/apps/logs
+    owner: appuser
+    group: appuser
+    mode: "0755"
+
+  - path: /opt/apps/config
+    owner: appuser
+    group: appuser
+    mode: "0750"
+
+  - path: /var/backups/system_manager
+    owner: root
+    group: root
+    mode: "0700"
+
+# 5. OTHER SYSTEM SETTINGS
+sm_timezone: "Asia/Kolkata"
+
+sm_hostname_enabled: true
+sm_hostname: "system-manager-node"
+
+sm_motd_enabled: true
+sm_motd_message: "Managed by Ansible - system_manager role. Unauthorized access is prohibited."
+
+sm_chrony_enabled: true
+
+sm_sysctl_enabled: true
+sm_sysctl_settings:
+  - name: net.ipv4.ip_forward
+    value: 0
+  - name: vm.swappiness
+    value: 10
+
+sm_services_enabled:
+  - ssh
+
+sm_services_disabled: []
+
+sm_ssh_hardening_enabled: true
+sm_ssh_permit_root_login: "no"
+sm_ssh_password_authentication: "no"

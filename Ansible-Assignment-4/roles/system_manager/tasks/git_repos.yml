@@ -1,0 +1,33 @@
+---
+- name: Ensure parent directories for git repos exist
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "0755"
+  loop: "{{ sm_git_repos }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Clone or update git repositories
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version | default('HEAD') }}"
+    update: true
+    force: false
+  loop: "{{ sm_git_repos }}"
+  loop_control:
+    label: "{{ item.name }}"
+  register: sm_git_clone_result
+
+- name: Fix ownership of cloned repositories
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    recurse: true
+  loop: "{{ sm_git_repos }}"
+  loop_control:
+    label: "{{ item.name }}"

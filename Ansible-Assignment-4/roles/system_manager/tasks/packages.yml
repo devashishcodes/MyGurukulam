@@ -1,0 +1,12 @@
+---
+- name: Update apt cache (Debian/Ubuntu)
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+
+- name: Install/manage packages (generic - works for apt/yum/dnf automatically)
+  ansible.builtin.package:
+    name: "{{ sm_packages }}"
+    state: "{{ sm_packages_state }}"
+

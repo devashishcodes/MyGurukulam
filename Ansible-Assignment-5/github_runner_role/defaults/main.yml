@@ -1,0 +1,17 @@
+---
+# Version-specific install (GitHub Actions runner release version)
+runner_version: "2.319.1"
+
+# GitHub repo/org details (user must override these when running playbook)
+github_owner: "your-github-username-or-org"
+github_repo: "your-repo-name"
+github_runner_token: "PASTE_YOUR_RUNNER_TOKEN_HERE"
+
+# Runner behaviour config
+runner_name: "{{ ansible_hostname }}-runner"
+runner_labels: "self-hosted,linux,{{ ansible_os_family }}"
+runner_work_dir: "_work"
+
+# Install locations
+runner_install_dir: "/opt/actions-runner"
+runner_user: "runner"

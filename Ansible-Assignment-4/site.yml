@@ -1,0 +1,9 @@
+---
+- name: Configure and manage system (packages, users, git repos, folders, settings)
+  hosts: managed_nodes
+  become: true
+  gather_facts: true
+
+  roles:
+    - system_manager
+

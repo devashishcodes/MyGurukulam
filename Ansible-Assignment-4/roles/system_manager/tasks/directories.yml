@@ -1,0 +1,11 @@
+---
+- name: Ensure required directory structure exists
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop: "{{ sm_directories }}"
+  loop_control:
+    label: "{{ item.path }}"

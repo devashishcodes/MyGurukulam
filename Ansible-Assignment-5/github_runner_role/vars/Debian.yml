@@ -1,0 +1,8 @@
+---
+runner_dependencies:
+  - curl
+  - tar
+  - jq
+  - liblttng-ust1
+  - libkrb5-3
+  - libicu-dev
