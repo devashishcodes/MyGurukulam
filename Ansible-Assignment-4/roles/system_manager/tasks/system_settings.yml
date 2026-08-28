@@ -1,0 +1,62 @@
+---
+- name: Set system timezone
+  community.general.timezone:
+    name: "{{ sm_timezone }}"
+
+- name: Set system hostname
+  ansible.builtin.hostname:
+    name: "{{ sm_hostname }}"
+  when: sm_hostname_enabled | bool
+
+- name: Deploy custom MOTD (message of the day)
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  when: sm_motd_enabled | bool
+
+- name: Apply sysctl kernel parameters
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    sysctl_set: true
+    state: present
+    reload: true
+  loop: "{{ sm_sysctl_settings }}"
+  when: sm_sysctl_enabled | bool
+
+- name: Ensure required services are enabled and running
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop: "{{ sm_services_enabled }}"
+  ignore_errors: true
+
+- name: Ensure unwanted services are stopped and disabled
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop: "{{ sm_services_disabled }}"
+  ignore_errors: true
+
+- name: Harden SSH - PermitRootLogin
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: "PermitRootLogin {{ sm_ssh_permit_root_login }}"
+    validate: "sshd -t -f %s"
+  when: sm_ssh_hardening_enabled | bool
+  notify: restart sshd
+
+- name: Harden SSH - PasswordAuthentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: "PasswordAuthentication {{ sm_ssh_password_authentication }}"
+    validate: "sshd -t -f %s"
+  when: sm_ssh_hardening_enabled | bool
+  notify: restart sshd

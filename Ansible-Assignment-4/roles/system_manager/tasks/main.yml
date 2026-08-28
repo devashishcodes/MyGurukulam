@@ -1,0 +1,20 @@
+---
+- name: Include package management tasks
+  ansible.builtin.include_tasks: packages.yml
+  tags: [packages]
+
+- name: Include user management tasks
+  ansible.builtin.include_tasks: users.yml
+  tags: [users]
+
+- name: Include directory structure tasks
+  ansible.builtin.include_tasks: directories.yml
+  tags: [directories]
+
+- name: Include git repository tasks
+  ansible.builtin.include_tasks: git_repos.yml
+  tags: [git]
+
+- name: Include general system settings tasks
+  ansible.builtin.include_tasks: system_settings.yml
+  tags: [system_settings]

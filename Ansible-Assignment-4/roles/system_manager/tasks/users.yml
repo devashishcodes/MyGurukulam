@@ -1,0 +1,66 @@
+---
+- name: Create/manage groups for users that specify one
+  ansible.builtin.group:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ sm_users }}"
+  when: item.groups is defined and item.groups != []
+
+- name: Create/manage user accounts
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
+    state: "{{ item.state | default('present') }}"
+    create_home: "{{ item.create_home | default(true) }}"
+    append: true
+  loop: "{{ sm_users }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Ensure .ssh directory exists for users needing SSH keys
+  ansible.builtin.file:
+    path: "/home/{{ item.name }}/.ssh"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0700"
+  loop: "{{ sm_users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.state | default('present') == 'present'
+    - item.generate_ssh_key | default(false)
+
+- name: Generate SSH keypair for users that request one
+  community.crypto.openssh_keypair:
+    path: "/home/{{ item.name }}/.ssh/id_rsa"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0600"
+    type: rsa
+    size: 4096
+  loop: "{{ sm_users }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.state | default('present') == 'present'
+    - item.generate_ssh_key | default(false)
+
+- name: Add authorized SSH public keys for users
+  ansible.posix.authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ item.1 }}"
+    state: present
+  loop: "{{ sm_users | subelements('ssh_authorized_keys', skip_missing=True) }}"
+  loop_control:
+    label: "{{ item.0.name }}"
+  when: item.0.state | default('present') == 'present'
+
+- name: Remove users marked absent
+  ansible.builtin.user:
+    name: "{{ item }}"
+    state: absent
+    remove: true
+  loop: "{{ sm_users_absent }}"

@@ -1,0 +1,17 @@
+[Unit]
+Description=GitHub Actions Runner ({{ runner_name }})
+After=network.target
+
+[Service]
+Type=simple
+User={{ runner_user }}
+WorkingDirectory={{ runner_install_dir }}
+ExecStart={{ runner_install_dir }}/runsvc.sh
+Restart=always
+RestartSec=10
+KillMode=process
+KillSignal=SIGTERM
+TimeoutStopSec=5min
+
+[Install]
+WantedBy=multi-user.target

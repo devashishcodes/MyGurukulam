@@ -1,0 +1,86 @@
+---
+- name: Load OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install dependencies (apt cache update - Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install dependency packages
+  package:
+    name: "{{ runner_dependencies }}"
+    state: present
+
+- name: Create dedicated runner user
+  user:
+    name: "{{ runner_user }}"
+    system: yes
+    shell: /bin/bash
+    create_home: yes
+
+- name: Create runner install directory
+  file:
+    path: "{{ runner_install_dir }}"
+    state: directory
+    owner: "{{ runner_user }}"
+    group: "{{ runner_user }}"
+    mode: '0755'
+
+- name: Download GitHub Actions runner (version specific)
+  get_url:
+    url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+    dest: "/tmp/actions-runner-{{ runner_version }}.tar.gz"
+    mode: '0644'
+
+- name: Extract runner archive
+  unarchive:
+    src: "/tmp/actions-runner-{{ runner_version }}.tar.gz"
+    dest: "{{ runner_install_dir }}"
+    remote_src: yes
+    owner: "{{ runner_user }}"
+    group: "{{ runner_user }}"
+    creates: "{{ runner_install_dir }}/config.sh"
+
+- name: Install runner dependencies script
+  command: "./bin/installdependencies.sh"
+  args:
+    chdir: "{{ runner_install_dir }}"
+
+- name: Deploy runner environment file from Jinja template
+  template:
+    src: runner.env.j2
+    dest: "{{ runner_install_dir }}/.env"
+    owner: "{{ runner_user }}"
+    group: "{{ runner_user }}"
+    mode: '0644'
+
+- name: Configure the runner (register with GitHub)
+  command: >
+    ./config.sh --unattended
+    --url https://github.com/{{ github_owner }}/{{ github_repo }}
+    --token {{ github_runner_token }}
+    --name {{ runner_name }}
+    --labels {{ runner_labels }}
+    --work {{ runner_work_dir }}
+  args:
+    chdir: "{{ runner_install_dir }}"
+    creates: "{{ runner_install_dir }}/.runner"
+  become: yes
+  become_user: "{{ runner_user }}"
+
+- name: Deploy systemd service file from Jinja template
+  template:
+    src: actions-runner.service.j2
+    dest: /etc/systemd/system/actions-runner.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart github runner
+
+- name: Ensure runner service is enabled and started
+  systemd:
+    name: actions-runner
+    enabled: yes
+    state: started
+    daemon_reload: yes

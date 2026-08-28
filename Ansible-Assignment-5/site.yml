@@ -1,0 +1,6 @@
+---
+- name: Install and configure GitHub Actions self-hosted runner
+  hosts: "{{ target_hosts | default('all_targets') }}"
+  become: yes
+  roles:
+    - github_runner_role
