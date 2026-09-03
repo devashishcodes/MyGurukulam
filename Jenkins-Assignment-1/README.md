@@ -14,26 +14,26 @@ Two Jenkins pipelines with Slack and Email notifications on every build.
 ```bash
 jenkins --version
 ```
-![Jenkins version](screenshots/cicd1-01-jenkins-version.png)
+<img width="679" height="59" alt="image" src="https://github.com/user-attachments/assets/634d7808-0e17-42fd-bc2f-2153e3a39a8c" />
 
 ```bash
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 sudo systemctl status jenkins
 ```
-![Jenkins running](screenshots/cicd1-02-jenkins-service-running.png)
+<img width="975" height="304" alt="image" src="https://github.com/user-attachments/assets/b5da1928-4c33-437d-b82a-c7c854b212a0" />
 
 ### Create the assignment repo
 
 Created `jenkins-assignment-repo` on GitHub.
-![GitHub repo](screenshots/cicd1-03-github-repo.png)
+<img width="975" height="494" alt="image" src="https://github.com/user-attachments/assets/5fbb10fc-782d-4f7b-9e1e-9023d43b316b" />
 
 ### Add GitHub credential to Jenkins
 
 ```
 Manage Jenkins → Credentials → System → Global → Add Credentials
 ```
-![GitHub credential in Jenkins](screenshots/cicd1-04-github-credential-jenkins.png)
+<img width="975" height="192" alt="image" src="https://github.com/user-attachments/assets/51ddd9e5-b10c-45b3-9f5b-20d402a234cd" />
 
 ## Slack Integration
 
@@ -42,7 +42,7 @@ Manage Jenkins → Credentials → System → Global → Add Credentials
 ```
 api.slack.com/apps → Create an App
 ```
-![Create Slack app](screenshots/cicd1-05-slack-create-app.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/3aab4bd4-07de-459f-a5fc-9c5c0bcaf4fa" />
 
 ### Get the Bot OAuth Token
 
@@ -50,29 +50,29 @@ api.slack.com/apps → Create an App
 xoxb-************-************-********************
 ```
 > ⚠️ Token value redacted here for security - never commit real Slack/API tokens to a public repo. Store it as a Jenkins credential (Secret text) instead, as done below.
-![Slack bot token](screenshots/cicd1-06-slack-bot-token.png)
+<img width="975" height="527" alt="image" src="https://github.com/user-attachments/assets/3e977626-8a9d-4bab-9129-c6910426d9e6" />
 
 ### Add the Jenkins bot to Slack
 
 Invited the "Jenkins CI" app to the `#jenkins-notifications` channel.
-![Jenkins bot added to Slack](screenshots/cicd1-07-jenkins-bot-added-slack.png)
+<img width="975" height="402" alt="image" src="https://github.com/user-attachments/assets/6d9fc808-7a82-49d2-bdb0-ea7bd53df596" />
 
 ### Add Slack credential in Jenkins
 
 ```
 Manage Jenkins → Credentials → Add Credentials → Secret text (Slack token)
 ```
-![Slack credential in Jenkins](screenshots/cicd1-08-slack-credential-jenkins.png)
+<img width="975" height="243" alt="image" src="https://github.com/user-attachments/assets/64c9f146-7982-40bc-aed8-ddb7561fdd55" />
 
 ### Configure Slack notifications and test connection
 
 ```
 Manage Jenkins → System → Slack → Workspace, credential, default channel #jenkins-notifications
 ```
-![Slack test connection success](screenshots/cicd1-09-slack-test-connection.png)
+<img width="975" height="186" alt="image" src="https://github.com/user-attachments/assets/35f3123d-3630-4664-84ac-cc6d258afca3" />
 
 Test message received in Slack:
-![Slack test message received](screenshots/cicd1-10-slack-test-message.png)
+<img width="975" height="102" alt="image" src="https://github.com/user-attachments/assets/7347a1d6-b83b-4021-9711-450a6e2ecf73" />
 
 ## Email Integration
 
@@ -81,7 +81,7 @@ Test message received in Slack:
 ```
 Google App Password used: piqqgmmgrjaqaffg
 ```
-![Gmail credential added](screenshots/cicd1-11-gmail-credential.png)
+<img width="975" height="255" alt="image" src="https://github.com/user-attachments/assets/c7f9aa17-55bc-4b44-9d35-189e62f8317e" />
 
 ### Test email configuration
 
@@ -89,7 +89,7 @@ Google App Password used: piqqgmmgrjaqaffg
 Manage Jenkins → System → Extended E-mail Notification → Test configuration by sending test e-mail
 ```
 Email was sent successfully.
-![Email test configuration success](screenshots/cicd1-12-email-test-config.png)
+<img width="975" height="182" alt="image" src="https://github.com/user-attachments/assets/268c206c-37e4-4678-bb0f-93c17fabd413" />
 
 ## Part 1: Git-Branch-Operations Job
 
@@ -100,12 +100,12 @@ ACTION (Choice Parameter): CREATE_BRANCH, LIST_BRANCHES, MERGE_BRANCH, REBASE_BR
 BRANCH_NAME (String Parameter)
 TARGET_BRANCH (String Parameter)
 ```
-![Job parameters](screenshots/cicd1-13-job1-parameters.png)
+<img width="975" height="739" alt="image" src="https://github.com/user-attachments/assets/e714bfcf-541a-4c5d-aa6c-d4e8858db04f" />
 
 ### SCM configuration
 
 Points to `jenkins-assignment-repo`, branch `*/main`, using the `github-creds` credential.
-![SCM config](screenshots/cicd1-14-job1-scm-config.png)
+<img width="975" height="518" alt="image" src="https://github.com/user-attachments/assets/977a93af-3d83-48ec-9978-90fb08460611" />
 
 ### Build step (Execute shell) with a `case` block for each action, plus Email post-build action
 
@@ -119,17 +119,17 @@ case "$ACTION" in
   *) echo "Invalid action"; exit 1 ;;
 esac
 ```
-![Build step and email post-build action](screenshots/cicd1-15-job1-build-step-email.png)
+<img width="975" height="538" alt="image" src="https://github.com/user-attachments/assets/b5745edc-1d45-4e73-86f8-6513972e6b56" />
 
 ### Slack notification post-build action
 
 "Notify Every Failure" checked, so a Slack message goes out whenever a step fails.
-![Slack notification config](screenshots/cicd1-16-job1-slack-notification-config.png)
+<img width="975" height="384" alt="image" src="https://github.com/user-attachments/assets/0c08f6e3-5539-4bcc-9322-addaabd8806e" />
 
 ### Job overview
 
 `Git-Branch-Operations` job with build history showing multiple successful and failed runs.
-![Git-Branch-Operations job](screenshots/cicd1-17-git-branch-operations-job.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/67778648-e6c6-4cd3-8ac4-08b40b9f15e1" />
 
 ### List all branches
 
@@ -137,7 +137,7 @@ esac
 ACTION = LIST_BRANCHES
 ```
 Console shows local and remote branches.
-![List branches output](screenshots/cicd1-18-list-branch-output.png)
+<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/269ce549-371a-4b02-a01c-610279c98cfd" />
 
 ### Merge one branch into another
 
@@ -147,47 +147,47 @@ ACTION = MERGE_BRANCH, BRANCH_NAME = Deva, TARGET_BRANCH = main
 ```
 SUCCESS: Merged 'Deva' into 'main'.
 ```
-![Merge branch output](screenshots/cicd1-19-merge-branch-output.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/20fcbb4e-5178-4e2a-b0cf-081b767f2ac3" />
 
 ### Delete a branch that doesn't exist (to trigger the failure path)
 
 ```
 ACTION = DELETE_BRANCH, BRANCH_NAME = Raj, TARGET_BRANCH = main
 ```
-![Delete non-existent branch](screenshots/cicd1-20-delete-nonexistent-branch.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/524d690e-1b27-481a-a1eb-b7fe8f65ec52" />
 
 ### Slack failure notification received
 
 ```
 Git-Branch-Operations - #16 Failure after 0.64 sec
 ```
-![Slack failure notification](screenshots/cicd1-21-slack-failure-notification.png)
+<img width="975" height="181" alt="image" src="https://github.com/user-attachments/assets/57dfdfe2-cde0-45a5-a894-f9c5f9d7e496" />
 
 ### Email failure notification received
 
 ```
 Git-Branch-Operations - Build # 16 - Failure!
 ```
-![Email failure notification](screenshots/cicd1-22-email-failure-notification.png)
+<img width="975" height="260" alt="image" src="https://github.com/user-attachments/assets/3220ae77-0b28-4ddd-9d14-42d8bc1ca6bf" />
 
 ## Part 2: Create-Ninja-File → Publish-Ninja-File
 
 ### Job 1: Create-Ninja-File
 
 Takes `Ninja_Name` as a string parameter, writes `"<Ninja Name> from DevOps Ninja"` to a file, and archives it as an artifact (`ninja_output.txt`). `Publish-Ninja-File` is configured as a downstream project so it triggers automatically after this job succeeds.
-![Create-Ninja-File job](screenshots/cicd1-23-create-ninja-file-job.png)
+<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/7ae191bb-f583-4f23-8719-ac1c7b7d2e27" />
 
 ### Run: Build with Parameters → Ninja_Name = Arjun → Build
 
 Slack shows the chain of notifications - Git-Branch-Operations failures earlier, then `Publish-Ninja-File - #1 Success` firing automatically right after `Create-Ninja-File` completed.
-![Slack chain of notifications](screenshots/cicd1-24-slack-chain-notifications.png)
+<img width="975" height="523" alt="image" src="https://github.com/user-attachments/assets/1956a66d-fa49-45f2-893d-7702fc62619a" />
 
 ### Email success notification for the downstream job
 
 ```
 Publish-Ninja-File - Build # 1 - Successful!
 ```
-![Email success for Publish-Ninja-File](screenshots/cicd1-25-email-success-publish.png)
+<img width="975" height="449" alt="image" src="https://github.com/user-attachments/assets/4cb1274c-bb0b-406b-8fd6-8a13e4df646c" />
 
 ### Verify the file is being served by the web server
 
@@ -197,9 +197,9 @@ http://54.87.2.175/ninja_output.txt
 ```
 Arjun from DevOps Ninja
 ```
-![File served via web server](screenshots/cicd1-26-ninja-output-webserver.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/db8ce302-87df-4011-97d0-08ae80455f2f" />
 
 ## Final Dashboard
 
 All three jobs (`Create-Ninja-File`, `Git-Branch-Operations`, `Publish-Ninja-File`) green and healthy.
-![Jenkins dashboard, all jobs](screenshots/cicd1-27-jenkins-dashboard-all-jobs.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/c50059a1-ce34-42ea-b95f-30ebd32e8381" />
