@@ -46,9 +46,6 @@ api.slack.com/apps → Create an App
 
 ### Get the Bot OAuth Token
 
-```
-xoxb-11948643881059-11983358651696-gN5kuDMDWIDjfqXkZHue0H0Y
-```
 ![Slack bot token](screenshots/cicd1-06-slack-bot-token.png)
 
 ### Add the Jenkins bot to Slack
