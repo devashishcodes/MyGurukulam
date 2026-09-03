@@ -46,7 +46,11 @@ api.slack.com/apps → Create an App
 
 ### Get the Bot OAuth Token
 
-![Slack bot token](screenshots/token.png)
+```
+xoxb-************-************-********************
+```
+> ⚠️ Token value redacted here for security - never commit real Slack/API tokens to a public repo. Store it as a Jenkins credential (Secret text) instead, as done below.
+![Slack bot token](screenshots/cicd1-06-slack-bot-token.png)
 
 ### Add the Jenkins bot to Slack
 
@@ -58,7 +62,7 @@ Invited the "Jenkins CI" app to the `#jenkins-notifications` channel.
 ```
 Manage Jenkins → Credentials → Add Credentials → Secret text (Slack token)
 ```
-![Slack credential in Jenkins](screenshots/jenkins.png)
+![Slack credential in Jenkins](screenshots/cicd1-08-slack-credential-jenkins.png)
 
 ### Configure Slack notifications and test connection
 
