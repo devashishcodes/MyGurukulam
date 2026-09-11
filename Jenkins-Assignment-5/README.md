@@ -9,7 +9,7 @@ Same requirements as Assignment 4 (checkout, parallel stability/quality/coverage
 ```
 Jenkins dashboard → New Item → Name: spring3hibernate-scripted-ci → Type: Pipeline
 ```
-![Pipeline job created](screenshots/cicd5-01-pipeline-job-created.png)
+<img width="573" height="95" alt="image" src="https://github.com/user-attachments/assets/3da267f7-98c0-4256-baf8-9cde8a8987f0" />
 
 ## Wrote the pipeline as a Scripted script
 
@@ -22,12 +22,12 @@ The four boolean parameters give the user the option to skip any scan independen
 - `SKIP_PUBLISH` → skip the Publish Artifacts stage entirely
 
 Also defined `SONARQUBE_ENV` and `SLACK_CHANNEL` as script variables at the top, pointing at the same `MySonarQube` server and `#jenkins-ci-alerts` channel used in Assignment 4.
-![Scripted pipeline script](screenshots/cicd5-02-scripted-pipeline-script.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/16f060d9-c195-4738-9eae-66daeeb89a6e" />
 
 ## First run - success on build #1
 
 Full stage view confirms every required stage ran in the scripted pipeline: **Tool Install → Code Checkout → Build → Build & Analysis (the parallel stability/quality/coverage block) → Quality Gate → Generate Report → Approval for Publish → Publish Artifacts → Notifications**. SonarQube Quality Gate for `Spring3HibernateApp` came back **Passed**, and the built WAR (`Spring3HibernateApp.war`, 20.59 MiB) was archived as the last successful artifact - meaning the manual approval step was accepted and the publish stage actually executed.
-![Pipeline stage view, success](screenshots/cicd5-03-pipeline-stage-view-success.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/ec67e523-e65d-4560-a206-ea955d098412" />
 
 ## Notifications
 
@@ -38,12 +38,12 @@ Job spring3hibernate-scripted-ci #1 -> SUCCESS
 Publish decision: Approve
 ```
 Same notification format as the declarative pipeline in Assignment 4 - confirms the scripted version also reports the approval outcome, not just the build status.
-![Slack notification](screenshots/cicd5-04-slack-notification.png)
+<img width="859" height="171" alt="image" src="https://github.com/user-attachments/assets/f801ebb0-34a4-4692-a49f-5e13ad7b9bed" />
 
 ### Email
 
 Matching email with the build status and publish decision in the subject line, `build.log` attached for reference.
-![Email notification](screenshots/cicd5-05-email-notification.png)
+<img width="975" height="67" alt="image" src="https://github.com/user-attachments/assets/d6512559-3288-40fd-b264-c53a504e3836" />
 
 ## Scripted vs Declarative (Assignment 4)
 
