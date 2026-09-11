@@ -9,22 +9,22 @@ A declarative Jenkins pipeline for the Spring3Hibernate Java project that checks
 ### Installed the SonarQube Scanner plugin in Jenkins
 
 Needed this so the pipeline can trigger a SonarQube analysis and wait on its Quality Gate result as part of the "code quality analysis" stage.
-![SonarQube Scanner plugin installed](screenshots/cicd4-01-sonar-plugin-install.png)
+<img width="975" height="288" alt="image" src="https://github.com/user-attachments/assets/f6fc2b2f-ce70-428b-807b-cb8ee596c459" />
 
 ### Installed SonarQube and logged in
 
 Set up a local SonarQube server and logged in as Administrator, ready to create the project that this pipeline will analyze.
-![SonarQube installed and logged in](screenshots/cicd4-02-sonarqube-installed-login.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/f3b3cbfc-e8df-4bb6-8dd2-bf01dff837f0" />
 
 ### Generated a SonarQube token for Jenkins to authenticate with
 
 Created a user token (`jenkins-token`) in SonarQube so Jenkins can push analysis results without using a personal login.
-![SonarQube token generated](screenshots/cicd4-03-sonar-token-generated.png)
+<img width="650" height="234" alt="image" src="https://github.com/user-attachments/assets/796de3ac-e12a-4947-b6e5-244882af6563" />
 
 ### Added the SonarQube token as a Jenkins credential
 
 Stored that token as `sonar-token` in Jenkins credentials, alongside the GitHub, Slack, and Gmail credentials already set up from earlier assignments, so this pipeline can reuse the same notification setup.
-![Sonar token added to Jenkins credentials](screenshots/cicd4-04-sonar-token-jenkins-cred.png)
+<img width="975" height="300" alt="image" src="https://github.com/user-attachments/assets/8b722734-8660-4587-aff8-81be8989b409" />
 
 ### Configured the SonarQube server in Jenkins
 
@@ -35,41 +35,41 @@ Server URL: http://localhost:9000
 Server authentication token: sonar-token
 ```
 This is what lets the pipeline's `withSonarQubeEnv` step know which server to talk to.
-![SonarQube server configured in Jenkins](screenshots/cicd4-05-sonarqube-server-config.png)
+<img width="975" height="427" alt="image" src="https://github.com/user-attachments/assets/d887465e-05a8-4df7-af73-adb8db31f996" />
 
 ### Created a webhook in SonarQube pointing back to Jenkins
 
 Without this, SonarQube analysis would run but Jenkins would have no way of knowing whether the Quality Gate passed or failed - the pipeline's `waitForQualityGate` step depends entirely on this webhook firing back to `/sonarqube-webhook/`. Last delivery shows success.
-![SonarQube webhook to Jenkins](screenshots/cicd4-06-sonarqube-webhook.png)
+<img width="975" height="371" alt="image" src="https://github.com/user-attachments/assets/164fd01e-6035-4774-a325-499ff06ea3c6" />
 
 ## Building the Pipeline Job
 
 Created a new Pipeline item named `spring3hibernate-ci` with the declarative Jenkinsfile defining all the required stages: code checkout, a parallel block for stability/quality/coverage checks, Quality Gate wait, report generation, a manual input/approval step, and conditional artifact publishing - each notified via Slack and Email.
-![Pipeline job created](screenshots/cicd4-07-pipeline-job-created.png)
+<img width="506" height="90" alt="image" src="https://github.com/user-attachments/assets/c5b45027-9776-4fcf-973d-3cfe9d129558" />
 
 ### Full stage view of the pipeline in action
 
 This is the clearest picture of the whole pipeline working end to end. The stage table shows every stage exactly as required: **Code Checkout → Build → Code Stability / Code Quality Analysis / Code Coverage Analysis (running in parallel) → Quality Gate → Generate Report → Approval for Publish → Publish Artifacts**, with per-build timing for each stage.
 
 Build history also shows the pipeline being run multiple times with intentional failures (builds #1-9 mostly red) before getting a clean pass (#10 green) - useful for proving the failure-notification path actually works, not just the happy path. The SonarQube Quality Gate for `Spring3HibernateApp` shows **Passed**.
-![Pipeline stage view](screenshots/cicd4-08-pipeline-stage-view.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/7aa4939d-e786-4c07-8a9c-8f8dcc4978ba" />
 
 ### SonarQube project dashboard after analysis
 
 Confirms the analysis actually ran and pushed real results into SonarQube - bugs, vulnerabilities, code smells, coverage, and duplication numbers for `Spring3HibernateApp`, with an overall **Passed** Quality Gate.
-![SonarQube project dashboard](screenshots/cicd4-09-sonarqube-project-dashboard.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/08e1bce0-d165-4d2a-9a3c-0cc295095b44" />
 
 ## Notifications
 
 ### Slack notifications across multiple runs
 
 Each message includes not just the build status but also a **Publish Decision** field - `N/A` on the failed builds (since the pipeline never reached the approval stage) and `Approve` on the successful build #10, where a human actually approved the publish step. This is the part of the pipeline that satisfies the "notify the user post approval/denial" requirement.
-![Slack notifications](screenshots/cicd4-10-slack-notifications.png)
+<img width="774" height="601" alt="image" src="https://github.com/user-attachments/assets/acd7006c-d0bf-4e4e-b225-0c455d8d1255" />
 
 ### Matching email notifications
 
 Same information reflected in email - Status and Publish Decision in the subject line, with the full `build.log` attached to each notification for debugging failed runs without needing to open Jenkins.
-![Email notifications](screenshots/cicd4-11-email-notifications.png)
+<img width="975" height="385" alt="image" src="https://github.com/user-attachments/assets/bf6ebaf2-50d5-4c8f-a855-942e81f41768" />
 
 ## How the Pipeline Satisfies Each Requirement
 
