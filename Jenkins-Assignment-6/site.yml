@@ -1,0 +1,19 @@
+---
+- name: Assignment 6 Ansible Deployment
+  hosts: localhost
+  connection: local
+  become: false
+
+  tasks:
+
+    - name: Display deployment environment
+      debug:
+        msg: "Deploying application to {{ environment }} environment"
+
+    - name: Display code base path
+      debug:
+        msg: "Code base path is {{ code_base_path }}"
+
+    - name: Deployment successful
+      debug:
+        msg: "Ansible playbook executed successfully"
