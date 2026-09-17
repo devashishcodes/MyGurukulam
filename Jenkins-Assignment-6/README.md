@@ -9,12 +9,12 @@ Built a reusable Jenkins Shared Library that wraps an entire Ansible deployment 
 ### Created the library repository
 
 Started a dedicated repo, `ansible-jenkins-shared-library`, separate from any actual application code - this is standard practice for Jenkins Shared Libraries so the same library can be reused across many projects.
-![Create library repo](screenshots/cicd6-01-create-library-repo.png)
+<img width="975" height="521" alt="image" src="https://github.com/user-attachments/assets/fe139ee4-f460-4d91-8874-0afed95bf470" />
 
 ### Added the global variable file
 
 Jenkins Shared Libraries expose reusable pipeline steps through files under `vars/`, where the filename becomes the callable step name. Created `vars/ansibleDeploy.groovy` - so any Jenkinsfile can later just call `ansibleDeploy()`.
-![vars/ansibleDeploy.groovy created](screenshots/cicd6-02-vars-ansibledeploy-groovy.png)
+<img width="975" height="274" alt="image" src="https://github.com/user-attachments/assets/d4137ea2-ad29-46c7-840b-86d229b952fd" />
 
 ### Registered the library globally in Jenkins
 
@@ -25,22 +25,22 @@ Default version: main
 Retrieval: Modern SCM
 ```
 This makes the library available to every pipeline on this Jenkins instance without each job needing to re-declare where to fetch it from.
-![Library name and version config](screenshots/cicd6-03-global-trusted-lib-name.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/d7362503-39f2-4473-b84e-0e87c98d2599" />
 
 Pointed the SCM at the library repo itself, using the existing `github-creds` credential.
-![Library SCM source config](screenshots/cicd6-04-global-trusted-lib-scm.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/e5f56b58-6541-4962-a11c-c216fa327c69" />
 
 ### Created a throwaway test job to confirm the library loads correctly
 
 Before wiring up a real project, made a quick `assignment-6-test` Pipeline job just to sanity-check that Jenkins could resolve and load the shared library without errors.
-![Test job created](screenshots/cicd6-05-test-job-created.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/4ac2a352-9a9b-4705-9959-4ed3848bb51c" />
 
 ## Building the Consumer Project
 
 ### Created a separate "app" repository
 
 This repo represents an actual project that would use the shared library - it holds the Jenkinsfile, the config file, and (eventually) a sample app and Ansible playbook, but none of the actual pipeline logic, which all lives in the library.
-![Create app repo](screenshots/cicd6-06-create-app-repo.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/48e73112-a62a-41dc-8219-d6961bb1cb06" />
 
 ### Added the required config file
 
@@ -53,12 +53,12 @@ ACTION_MESSAGE     = <channel message>
 KEEP_APPROVAL_STAGE = true
 ```
 The shared library's `ansibleDeploy()` step reads this file at runtime, so changing the deployment target or the approval behavior never requires touching the library code - only this config.
-![deployment.conf created](screenshots/cicd6-07-deployment-conf-created.png)
+<img width="975" height="337" alt="image" src="https://github.com/user-attachments/assets/ca2a5f53-5af0-4321-8786-8434a9f7effd" />
 
 ### Repo now has everything the pipeline needs
 
 `config/deployment.conf`, a `Jenkinsfile` (which just calls into the shared library), a `README.md`, and `site.yml` (the actual Ansible playbook the library will run).
-![App repo files](screenshots/cicd6-08-app-repo-files.png)
+<img width="975" height="329" alt="image" src="https://github.com/user-attachments/assets/70b5dfff-fbe4-4be6-bd49-abab69f93092" />
 
 ### Configured the Jenkins job to pull the Jenkinsfile from this repo
 
@@ -66,22 +66,22 @@ The shared library's `ansibleDeploy()` step reads this file at runtime, so chang
 Definition: Pipeline script from SCM
 Repository URL: https://github.com/devashishcodes/assignment-6-ansible-app.git
 ```
-![Main job SCM config](screenshots/cicd6-09-main-job-scm-config.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/0fd64a90-fb33-4663-b7ca-c69b811bcc63" />
 
 ### Updated the config once the real notification setup was ready
 
 Adjusted `SLACK_CHANNEL_NAME` to match the actual channel already wired up in Jenkins (`jenkins-ci-alerts`) and kept `KEEP_APPROVAL_STAGE=true` so the manual gate stays active.
-![deployment.conf updated](screenshots/cicd6-10-deployment-conf-updated.png)
+<img width="975" height="363" alt="image" src="https://github.com/user-attachments/assets/5502e77c-4552-40e0-adc5-762573b65cee" />
 
 Branch set to `*/main`, script path `Jenkinsfile`, lightweight checkout enabled for faster pulls.
-![Branch and script path](screenshots/cicd6-11-job-branch-script-path.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/c6c34c2c-6371-47a5-a25c-fabffc05473f" />
 
 ## First Runs and Fixing the Environment
 
 ### Early builds - stages fail past Load Configuration
 
 The pipeline structure was already correct - the stage view shows exactly the required steps (**Clone, Load Configuration, SonarQube Analysis, Quality Gate, User Approval, Playbook Execution, Notification**) - but builds failed from SonarQube Analysis onward because SonarQube itself wasn't set up in this fresh Jenkins/SonarQube environment yet.
-![First run, partial failure](screenshots/cicd6-12-first-run-partial-failure.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/0bdebec7-2d9b-4b15-b524-ed35236a00ce" />
 
 ### Configured the SonarQube server in Jenkins
 
@@ -89,17 +89,17 @@ The pipeline structure was already correct - the stage view shows exactly the re
 Manage Jenkins → System → SonarQube servers
 Name: SonarQube, Server URL: http://localhost:9000
 ```
-![SonarQube server setup](screenshots/cicd6-13-sonarqube-server-setup.png)
+<img width="975" height="489" alt="image" src="https://github.com/user-attachments/assets/9b923eaf-5af9-4eea-a6d8-6948b403087d" />
 
 ### Confirmed all required credentials are present
 
 `github-creds`, `slack-token`, `gmail-smtp`, and `sonar-token` - everything the shared library needs to clone, notify, and authenticate to SonarQube.
-![All credentials](screenshots/cicd6-14-all-credentials.png)
+<img width="975" height="268" alt="image" src="https://github.com/user-attachments/assets/8cdf0fce-815d-4597-bc8d-4849103d0a63" />
 
 ### Created the matching project in SonarQube
 
 Project key `assignment-6`, so the analysis triggered by the pipeline has somewhere to report to.
-![SonarQube project created](screenshots/cicd6-15-sonarqube-project-create.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/7024ac4b-6b75-4dbb-8e53-204293e58711" />
 
 ### Configured the SonarQube Scanner tool in Jenkins
 
@@ -107,39 +107,39 @@ Project key `assignment-6`, so the analysis triggered by the pipeline has somewh
 Manage Jenkins → Tools → SonarQube Scanner installations
 Name: sonar-scanner, Install automatically: SonarQube Scanner 8.1.0.6389
 ```
-![Sonar scanner tool config](screenshots/cicd6-16-sonar-scanner-tool-config.png)
+<img width="975" height="522" alt="image" src="https://github.com/user-attachments/assets/d071df0b-e62e-4806-bc3c-4e804050df82" />
 
 ### Configured Maven
 
 Pointed at the existing local Maven install (`/usr/share/maven`) so the Build stage can compile the Java app before SonarQube analyzes it.
-![Maven tool config](screenshots/cicd6-17-maven-tool-config.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/ee1177ed-df09-4f02-bd1f-f7650fcfe064" />
 
 ### Added a minimal sample Java app to the repo
 
 SonarQube needs actual source code to analyze - added `src/main/java/App.java` and a `pom.xml` to the app repo so the pipeline has something real to build and scan.
-![Sample Java app added](screenshots/cicd6-18-sample-java-app-added.png)
+<img width="975" height="352" alt="image" src="https://github.com/user-attachments/assets/6e429340-062d-4594-9189-cc1cc21dbbfa" />
 
 ## The Pipeline Working End to End
 
 ### The User Approval stage in action
 
 This is the manual gate the assignment specifically asked for. Mid-pipeline, the build pauses and shows a prompt - **"Deploy to prod?"** with Approve / Abort buttons - the message text pulled straight from `ACTION_MESSAGE` in the config file. Nothing downstream (Playbook Execution) runs until a human makes a decision here.
-![User Approval prompt](screenshots/cicd6-19-user-approval-prompt.png)
+<img width="975" height="271" alt="image" src="https://github.com/user-attachments/assets/35575996-318c-419d-a083-0fe2bd0b2286" />
 
 ### All stages passing consistently
 
 With SonarQube and Maven properly wired up, subsequent builds (#5, #7, #8) run clean through every stage, including the approval pause and the final Playbook Execution and Notification stages.
-![All stages passing](screenshots/cicd6-20-all-stages-passing.png)
+<img width="975" height="526" alt="image" src="https://github.com/user-attachments/assets/7c65ad48-0e10-4439-8f8b-29fedf289887" />
 
 ### SonarQube confirms a clean Quality Gate
 
 `assignment-6` project shows **Passed** with 0 bugs, 0 vulnerabilities, 0 security hotspots - all A ratings.
-![SonarQube Quality Gate passed](screenshots/cicd6-21-sonarqube-quality-gate-passed.png)
+<img width="975" height="525" alt="image" src="https://github.com/user-attachments/assets/41ec409c-02de-4062-855d-784d13812371" />
 
 ### Final Slack notification, using the config's custom message
 
 The last message in the channel - `"Deployment completed successfully"` - is exactly the `ACTION_MESSAGE` value from `deployment.conf`, proving the shared library reads its notification text from the consumer's config rather than a hardcoded string in the library itself.
-![Final Slack notification](screenshots/cicd6-22-slack-final-notification.png)
+<img width="975" height="347" alt="image" src="https://github.com/user-attachments/assets/53afd8a8-78e8-461b-af33-c4e9b1e8b607" />
 
 ## How the Shared Library Satisfies Each Requirement
 
