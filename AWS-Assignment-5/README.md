@@ -66,7 +66,6 @@ The infrastructure resources were created successfully using the Terraform modul
 
 The created resources were verified using the Terraform state list command.
 
-aaaaaa
 
 
 The `terraform state list` command displayed the resources managed by Terraform.
