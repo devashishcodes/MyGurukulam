@@ -66,7 +66,7 @@ The infrastructure resources were created successfully using the Terraform modul
 
 The created resources were verified using the Terraform state list command.
 
-
+<img width="940" height="620" alt="image" src="https://github.com/user-attachments/assets/42a435f2-3c36-4c43-a5df-7782286e15a6" />
 
 The `terraform state list` command displayed the resources managed by Terraform.
 
@@ -76,47 +76,37 @@ The `terraform state list` command displayed the resources managed by Terraform.
 
 Terraform outputs were checked to verify the created infrastructure details.
 
-aaaaaaaaa
+<img width="838" height="915" alt="image" src="https://github.com/user-attachments/assets/56c08974-dd3e-42ee-89b7-af7b498083e7" />
 
 The output displayed the VPC ID, subnet IDs, security group ID, public IPs, private IPs, and instance IDs.
 
 ---
 
-## 8. Verify S3 State Bucket
+## 8. Verify S3 State Bucket & Verify DynamoDB State Lock
 
-The Terraform state bucket was checked in the AWS Management Console.
+The Terraform state bucket was checked in the AWS Management Console. The DynamoDB table used for Terraform state locking was checked.
 
-![S3 Bucket](images/08-s3-bucket.png)
+<img width="975" height="157" alt="image" src="https://github.com/user-attachments/assets/697fa567-5d24-417c-9bc5-621d12e7e9a1" />
 
-The S3 bucket used for Terraform state management was successfully created.
-
----
-
-## 9. Verify DynamoDB State Lock
-
-The DynamoDB table used for Terraform state locking was checked.
-
-![DynamoDB State Lock](images/09-dynamodb-lock.png)
-
-The DynamoDB table was active and configured for Terraform state locking.
+The S3 bucket used for Terraform state management was successfully created. The DynamoDB table was active and configured for Terraform state locking.
 
 ---
 
-## 10. Verify EC2 Instances
+## 9. Verify EC2 Instances
 
 The EC2 instances created through Terraform were verified in the AWS Console.
 
-![EC2 Instances](images/10-ec2-instances.png)
+<img width="975" height="240" alt="image" src="https://github.com/user-attachments/assets/201f0d15-2ad5-484f-b18a-9713d0f933d8" />
 
 The EC2 instances were successfully created and running.
 
 ---
 
-## 11. Verify VPC
+## 10. Verify VPC
 
 The VPC created using the Terraform module was verified in the AWS Console.
 
-![VPC](images/11-vpc.png)
+<img width="975" height="298" alt="image" src="https://github.com/user-attachments/assets/3ce02e31-799f-4268-812f-493e9ceabfdf" />
 
 The VPC and its associated networking resources were successfully created.
 
