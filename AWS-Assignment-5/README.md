@@ -16,7 +16,7 @@ Implement Infrastructure with Terraform Module.
 
 The Terraform project was organized into reusable modules for different infrastructure components.
 
-![Terraform Module Structure](images/01-terraform-modules.png)
+<img width="975" height="548" alt="image" src="https://github.com/user-attachments/assets/01545ec6-065e-44bd-afa0-32905a460b1c" />
 
 The project contains separate modules for VPC, Subnet, Security Group, EC2 Instance, and backend configuration.
 
@@ -26,7 +26,7 @@ The project contains separate modules for VPC, Subnet, Security Group, EC2 Insta
 
 Terraform was initialized and the configuration was checked using `terraform init` and `terraform plan`.
 
-![Terraform Plan](images/02-terraform-plan.png)
+<img width="975" height="548" alt="image" src="https://github.com/user-attachments/assets/ebd47357-62d7-43ca-9553-6d4d8d48fbbd" />
 
 The Terraform plan verified the resources that would be created before applying the configuration.
 
@@ -36,7 +36,7 @@ The Terraform plan verified the resources that would be created before applying 
 
 An Amazon S3 bucket was created to store the Terraform state file.
 
-![S3 Backend Terraform Plan](images/03-s3-backend-plan.png)
+<img width="744" height="415" alt="image" src="https://github.com/user-attachments/assets/ba7e4dc6-160a-4b9a-ad29-df3cb083cdf3" />
 
 The plan showed the S3 bucket and its required configuration before creation.
 
@@ -46,7 +46,7 @@ The plan showed the S3 bucket and its required configuration before creation.
 
 The S3 bucket was created successfully using Terraform.
 
-![S3 Backend Apply](images/04-s3-backend-apply.png)
+<img width="871" height="519" alt="image" src="https://github.com/user-attachments/assets/677b23d6-c506-4bdc-b144-194af5e87972" />
 
 The Terraform apply completed successfully and the S3 bucket was created.
 
@@ -56,7 +56,7 @@ The Terraform apply completed successfully and the S3 bucket was created.
 
 The Terraform configuration was applied to create the infrastructure using the reusable modules.
 
-![Terraform Apply](images/05-terraform-apply.png)
+<img width="975" height="443" alt="image" src="https://github.com/user-attachments/assets/f91de1c5-08a5-4267-8286-cb309815071b" />
 
 The infrastructure resources were created successfully using the Terraform modules.
 
@@ -66,7 +66,8 @@ The infrastructure resources were created successfully using the Terraform modul
 
 The created resources were verified using the Terraform state list command.
 
-![Terraform State List](images/06-terraform-state-list.png)
+aaaaaa
+
 
 The `terraform state list` command displayed the resources managed by Terraform.
 
