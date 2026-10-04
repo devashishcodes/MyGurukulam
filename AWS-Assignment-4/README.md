@@ -13,129 +13,122 @@ Design and implement AWS infrastructure using Terraform IaC based on the archite
 
 ---
 
-## 1. Check Terraform Version
+## 1. Check Terraform Version & Verify AWS Account
 
-![Terraform Version](images/01-terraform-version.png)
+<img width="975" height="291" alt="image" src="https://github.com/user-attachments/assets/b98352d7-2ced-416e-88e3-0b8e8c1b6e2d" />
 
 The Terraform version and AWS provider version were verified before starting the implementation.
 
 ---
 
-## 2. Verify AWS Account
+## 2. Initialize and Validate Terraform
 
-![AWS Identity](images/02-aws-identity.png)
-
-The AWS account identity was verified using the AWS CLI.
-
----
-
-## 3. Initialize and Validate Terraform
-
-![Terraform Validate](images/03-terraform-validate.png)
+<img width="683" height="101" alt="image" src="https://github.com/user-attachments/assets/2a830096-e163-4365-b897-2f6680494d96" />
 
 Terraform was initialized and the configuration was validated successfully.
 
 ---
 
-## 4. Create Infrastructure
+## 3. Create Infrastructure
 
-![Terraform Apply](images/04-terraform-apply.png)
+<img width="890" height="470" alt="image" src="https://github.com/user-attachments/assets/77c9276e-63dd-4459-9c8c-77ba63dc5d0f" />
 
 The Terraform configuration was applied successfully and the required AWS infrastructure was created.
 
 ---
 
-## 5. Configure S3 for Terraform State
+## 4. Configure S3 for Terraform State
 
-![S3 Terraform State](images/05-s3-state.png)
+<img width="975" height="44" alt="image" src="https://github.com/user-attachments/assets/bc5bfaa7-aa46-4d1e-ac8c-ef5068e32eef" />
 
 An S3 bucket was configured to store the Terraform state file remotely.
 
 ---
 
-## 6. Verify VPC and Networking
+## 5. Verify VPC and Networking
 
-![VPC](images/06-vpc.png)
+<img width="975" height="306" alt="image" src="https://github.com/user-attachments/assets/d01baed4-35ed-4108-9acb-b30a044f1079" />
 
 The VPC and networking resources created through Terraform were verified in the AWS Console.
 
 ---
 
-## 7. Verify VPC Resource Map
+## 6. Verify VPC Resource Map
 
-![VPC Resource Map](images/07-vpc-resource-map.png)
+<img width="975" height="259" alt="image" src="https://github.com/user-attachments/assets/e7bdb51b-acb5-427e-9d2e-535acfc94bee" />
 
 The VPC resource map shows the VPC, subnets, route tables, and network connections.
 
 ---
 
-## 8. Verify Security Group
+## 7. Verify Security Group
 
-![Security Group](images/08-security-group.png)
+<img width="975" height="242" alt="image" src="https://github.com/user-attachments/assets/a9e90f28-662b-4caa-910f-5fc092fb52f2" />
 
 The Security Group created through Terraform was verified in the AWS Console.
 
 ---
 
-## 9. Verify IAM Role
+## 8. Verify IAM Role
 
-![IAM Role](images/09-iam-role.png)
+<img width="975" height="242" alt="image" src="https://github.com/user-attachments/assets/3d107f9c-705c-40f4-91f0-1971de78ed1e" />
 
 The IAM role required for the infrastructure was created and verified.
 
 ---
 
-## 10. Verify Launch Template
+## 9. Verify Launch Template
 
-![Launch Template](images/10-launch-template.png)
+<img width="975" height="247" alt="image" src="https://github.com/user-attachments/assets/8df35242-51eb-4726-8578-d3253b47525f" />
 
 The EC2 Launch Template was created successfully for the instances.
 
 ---
 
-## 11. Verify Auto Scaling Group
+## 10. Verify Auto Scaling Group
 
-![Auto Scaling Group](images/11-auto-scaling-group.png)
+<img width="975" height="252" alt="image" src="https://github.com/user-attachments/assets/ad4d7ca4-4da4-470f-9d0f-3849241737e9" />
 
 The Auto Scaling Group was created and configured using Terraform.
 
 ---
 
-## 12. Verify EC2 Instance
+## 11. Verify EC2 Instance
 
-![EC2 Instance](images/12-ec2-instance.png)
+<img width="975" height="250" alt="image" src="https://github.com/user-attachments/assets/bdc02f6a-9b78-4648-9bde-e4f57cb69eaf" />
 
 The EC2 instance launched through the Auto Scaling Group was verified in the AWS Console.
 
 ---
 
-## 13. Verify S3 Bucket
+## 12. Verify S3 Bucket
 
-![S3 Bucket](images/13-s3-bucket.png)
+<img width="975" height="339" alt="image" src="https://github.com/user-attachments/assets/ee015d0c-4140-4335-849c-97d80fe73912" />
 
 The S3 bucket used for Terraform remote state was verified in the AWS Console.
 
 ---
 
-## 14. Upload Terraform Code to GitHub
+## 13. Upload Terraform Code to GitHub
 
-![GitHub Repository](images/14-github-upload.png)
+<img width="975" height="500" alt="image" src="https://github.com/user-attachments/assets/a8ea2bb4-52f3-49a1-8e5b-b40fcbcd91ca" />
+<img width="975" height="549" alt="image" src="https://github.com/user-attachments/assets/e474cbc7-5a7e-464a-a33c-a52071a1ff85" />
 
 The Terraform configuration files were committed and pushed to the GitHub repository.
 
 ---
 
-## 15. Verify GitHub Repository
+## 14. Verify GitHub Repository
 
-![GitHub Repository](images/15-github-repository.png)
+<img width="975" height="524" alt="image" src="https://github.com/user-attachments/assets/d901a09e-1080-4354-a287-4db672bdac3b" />
 
 The Terraform project files were successfully uploaded to the GitHub repository.
 
 ---
 
-## 16. Terraform Destroy
+## 15. Terraform Destroy
 
-![Terraform Destroy](images/16-terraform-destroy.png)
+<img width="975" height="548" alt="image" src="https://github.com/user-attachments/assets/c1a3c6bd-9386-4e7f-8613-ee182a0e6d99" />
 
 After completing the assignment, `terraform destroy` was used to remove the created AWS resources.
 
