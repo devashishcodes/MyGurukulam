@@ -77,7 +77,7 @@ The `terraform state list` command displayed the resources managed by Terraform.
 
 Terraform outputs were checked to verify the created infrastructure details.
 
-![Terraform Output](images/07-terraform-output.png)
+aaaaaaaaa
 
 The output displayed the VPC ID, subnet IDs, security group ID, public IPs, private IPs, and instance IDs.
 
